@@ -1,0 +1,1593 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#ffffff">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27%3E%3Crect width=%2724%27 height=%2724%27 rx=%276%27 fill=%27%23fff0d6%27/%3E%3Cpath fill=%27%23ffb020%27 d=%27M12 4.5l2.200 4.600 5 .700-3.600 3.500.900 5L12 15.900 7.500 18.300l.900-5L4.800 9.800l5-.700z%27/%3E%3C/svg%3E">
+<title>رصد القيم والسلوك المتميز — ابتدائية الخنساء برغدان</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+<script>
+/* ═══════════════════════════════════════════════════════════════════════
+   إعداد الاتصال بقاعدة البيانات (Supabase)
+   يمكن تركهما فارغين: سيطلبهما الموقع عند أول فتح ثم يولّد «رابط المعلمات».
+   أو ضعي القيمتين هنا ليعمل الرابط مباشرة على أي جهاز:
+     url : من Supabase > Project Settings > Data API > Project URL
+     key : من Supabase > Project Settings > API Keys > (anon / publishable)
+   ═══════════════════════════════════════════════════════════════════════ */
+const CONFIG = { url: "https://gsmmhtykmgpovwoaglek.supabase.co", key: "sb_publishable_PiyAkPtDxEsY23Vi_i4uCg_lMgU-_Pg" };
+const SCHOOL = "ابتدائية الخنساء برغدان";
+</script>
+<style>
+:root{
+  --bg:#f6f3ea; --card:#fffdf9; --ink:#1b2b29; --muted:#687673; --line:#e4decf; --line2:#efeadd;
+  --teal:#0f6b62; --teal-d:#0a4a44; --teal-dd:#06302d; --teal-l:#dcefea; --teal-ll:#eff8f5;
+  --gold:#b08d57; --gold-d:#86683a; --gold-l:#f5ecd9; --gold-ll:#fbf6ea;
+  --rose:#b3432e; --rose-l:#fbe8e3;
+  --b6:#0f6b62; --b4:#a8813f; --b2:#48699a; --bm:#7a5690;
+  --r:14px; --shadow:0 1px 2px rgba(20,40,36,.06),0 6px 20px rgba(20,40,36,.06);
+  --font:"Amiri","Noto Naskh Arabic","Geeza Pro","Traditional Arabic","Sakkal Majalla","Times New Roman",serif;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:17px;line-height:1.7;-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+h1,h2,h3{margin:0;line-height:1.3}
+.num{font-variant-numeric:tabular-nums;direction:ltr;unicode-bidi:isolate}
+svg{display:block;flex:none}
+[hidden]{display:none!important}
+
+/* ── buttons & fields ── */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.45em;border:1px solid var(--line);background:var(--card);border-radius:10px;padding:.5em .95em;font-weight:600;min-height:40px;white-space:nowrap;transition:background .15s,border-color .15s,transform .05s}
+.btn:hover{border-color:#d8d2e2;background:#fff}
+.btn:active{transform:translateY(1px)}
+.btn.primary{background:var(--teal);border-color:var(--teal);color:#fff}
+.btn.primary:hover{background:var(--teal-d);border-color:var(--teal-d)}
+.btn.gold{background:var(--gold-l);border-color:#e3d3b1;color:var(--gold-d)}
+.btn.danger{color:var(--rose);border-color:#eccfc7;background:var(--rose-l)}
+.btn.ghost{background:transparent;border-color:transparent}
+.btn.ghost:hover{background:rgba(0,0,0,.05)}
+.btn.sm{min-height:32px;padding:.25em .7em;font-size:15px;border-radius:8px}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.field{display:flex;flex-direction:column;gap:.3em;margin-bottom:.9em}
+.field>span{font-size:15px;font-weight:600;color:var(--muted)}
+input[type=text],input[type=password],input[type=date],input[type=number],input[type=search],select,textarea{
+  width:100%;border:1px solid var(--line);background:#fff;border-radius:10px;padding:.55em .75em;min-height:42px;outline:none}
+textarea{min-height:76px;resize:vertical}
+input:focus,select:focus,textarea:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(15,107,98,.14)}
+:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+.row{display:flex;gap:.6em;align-items:center;flex-wrap:wrap}
+.grow{flex:1 1 auto;min-width:0}
+.muted{color:var(--muted)} .small{font-size:15px} .tiny{font-size:14px}
+.err{background:var(--rose-l);color:var(--rose);border:1px solid #eccfc7;border-radius:10px;padding:.6em .8em;font-weight:600;margin-bottom:.8em}
+.note{background:var(--gold-ll);border:1px solid #ecdfc3;border-radius:10px;padding:.6em .8em;color:#6d5630}
+
+/* ── auth screens ── */
+.auth{min-height:100vh;min-height:100dvh;display:grid;place-items:center;padding:20px;
+  background:radial-gradient(1200px 600px at 80% -10%,#16857a 0,transparent 60%),linear-gradient(160deg,var(--teal-d),var(--teal-dd))}
+.auth-card{width:min(440px,100%);background:var(--card);border-radius:22px;padding:28px 26px 24px;box-shadow:0 30px 80px rgba(0,0,0,.35);border-top:5px solid var(--gold)}
+.auth-card.wide{width:min(560px,100%)}
+.brand{display:flex;gap:12px;align-items:center;margin-bottom:18px}
+.logo{width:50px;height:50px;border-radius:14px;background:linear-gradient(150deg,var(--teal),var(--teal-dd));display:grid;place-items:center;color:#f1dfb9;flex:none}
+.brand h1{font-size:21.5px} .brand p{margin:2px 0 0;color:var(--muted);font-size:15.5px}
+
+/* ── shell ── */
+.top{position:sticky;top:0;z-index:30;background:linear-gradient(180deg,var(--teal-d),#083f3a);color:#fff;border-bottom:3px solid var(--gold);padding-top:env(safe-area-inset-top)}
+.top-in{max-width:1500px;margin:auto;padding:10px 16px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.top .logo{width:40px;height:40px;border-radius:11px;background:rgba(255,255,255,.1)}
+.top h1{font-size:18.5px} .top .sub{font-size:14px;opacity:.75}
+.nav{display:flex;gap:4px;margin-inline-start:auto;background:rgba(255,255,255,.08);padding:4px;border-radius:12px}
+.nav button{border:0;background:transparent;color:#d9ece8;padding:.45em .95em;border-radius:9px;font-weight:600;display:flex;gap:.4em;align-items:center}
+.nav button.on{background:#fff;color:var(--teal-d)}
+.user{display:flex;align-items:center;gap:8px}
+.user .who{text-align:start;line-height:1.25} .user .who b{display:block;font-size:15.5px} .user .who span{font-size:13px;opacity:.75}
+.top .btn.ghost{color:#fff;min-height:36px;padding:.3em .6em}
+.top .btn.ghost:hover{background:rgba(255,255,255,.12)}
+main{max-width:1500px;margin:auto;padding:16px 16px 80px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+.pad{padding:14px 16px}
+.section-title{font-size:19.5px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:.5em}
+
+/* ── pills / segmented ── */
+.seg{display:inline-flex;background:#efecf5;border-radius:11px;padding:3px;gap:2px;flex-wrap:wrap}
+.seg button{border:0;background:transparent;border-radius:9px;padding:.38em .85em;font-weight:600;color:#5b6360;min-height:34px}
+.seg button.on{background:#fff;color:var(--teal-d);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{border:1px solid var(--line);background:#fff;border-radius:999px;padding:.32em .85em;font-weight:600;min-height:36px;display:inline-flex;gap:.4em;align-items:center}
+.chip.on{background:var(--teal);border-color:var(--teal);color:#fff}
+.chip .n{font-size:13px;opacity:.7;font-weight:500}
+.tabs{display:flex;gap:8px;margin:14px 0 10px;flex-wrap:wrap}
+.tab{flex:1 1 220px;border:1px solid var(--line);background:var(--card);border-radius:14px;padding:.7em 1em;text-align:start;display:flex;gap:.7em;align-items:center}
+.tab .ic{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;background:var(--line2);color:var(--muted)}
+.tab b{display:block;font-size:17.5px} .tab span{font-size:14.5px;color:var(--muted)}
+.tab.on{border-color:var(--teal);background:var(--teal-ll);box-shadow:inset 0 0 0 1px var(--teal)}
+.tab.on .ic{background:var(--teal);color:#fff}
+.tab.on.gold{border-color:var(--gold);background:var(--gold-ll);box-shadow:inset 0 0 0 1px var(--gold)}
+.tab.on.gold .ic{background:var(--gold);color:#fff}
+.toolbar{display:flex;gap:10px 14px;align-items:center;flex-wrap:wrap}
+.lbl{font-size:14.5px;font-weight:700;color:var(--muted);margin-inline-end:2px}
+
+/* ── search ── */
+.search{position:relative;flex:1 1 230px;max-width:360px}
+.search input{padding-inline-start:2.4em}
+.search>span:first-child{position:absolute;inset-inline-start:.75em;top:50%;transform:translateY(-50%);color:var(--muted);pointer-events:none}
+.results{position:absolute;z-index:20;top:calc(100% + 4px);inset-inline:0;background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);max-height:320px;overflow:auto}
+.results button{display:flex;justify-content:space-between;gap:10px;width:100%;border:0;background:transparent;padding:.6em .8em;text-align:start;border-bottom:1px solid var(--line2)}
+.results button:hover{background:var(--teal-ll)}
+.results .empty{padding:.8em;color:var(--muted)}
+
+/* ── grid ── */
+.gridwrap{overflow:auto;border-radius:var(--r);border:1px solid var(--line);background:var(--card);box-shadow:var(--shadow);max-height:calc(100dvh - 150px)}
+table.grid{border-collapse:separate;border-spacing:0;width:100%;min-width:max-content}
+.grid th,.grid td{border-bottom:1px solid var(--line2);border-inline-start:1px solid var(--line2);padding:6px 6px;text-align:center;background:var(--card)}
+.grid thead th{position:sticky;top:0;z-index:3;background:#f5f2f9;font-size:14.5px;font-weight:700;vertical-align:bottom;line-height:1.35}
+.grid thead tr.bands th{top:0;height:30px;color:#fff;font-size:14px;padding:4px 8px;white-space:nowrap}
+.grid thead tr.heads.under th{top:30px}
+.grid .namecol{position:sticky;right:0;z-index:2;text-align:start;min-width:210px;max-width:260px;border-inline-start:0;box-shadow:-6px 0 8px -6px rgba(0,0,0,.12)}
+.grid thead .namecol{z-index:5}
+.grid td.namecol button{border:0;background:transparent;text-align:start;padding:2px 0;font-weight:600;display:flex;gap:8px;align-items:baseline;width:100%}
+.grid td.namecol button:hover .nm{color:var(--teal);text-decoration:underline}
+.grid .ix{color:var(--muted);font-size:14px;min-width:1.5em}
+.grid tbody tr:nth-child(even) td{background:#fdfcfe}
+.grid tbody tr:hover td{background:var(--teal-ll)}
+.grid tr.hl td{background:var(--gold-l)!important}
+.grid th.item{min-width:74px;max-width:104px;white-space:normal;font-weight:600}
+.grid th.item.p{width:104px}
+.grid th.item .no{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;border:1.5px solid var(--gold);color:var(--teal);font-size:14px;margin-bottom:3px}
+.grid th.tot,.grid td.tot{min-width:76px;background:#f5f2f9;font-weight:700;position:sticky;left:0;z-index:2;box-shadow:6px 0 8px -6px rgba(0,0,0,.12)}
+.grid thead th.tot{z-index:5}
+.grid tbody tr:nth-child(even) td.tot,.grid tbody tr:hover td.tot{background:#f5f2f9}
+.pts b{font-size:19.5px;color:var(--teal-d)} .pts .of{font-size:13px;color:var(--muted);font-weight:500}
+.pts .raw{display:block;font-size:12px;color:var(--gold-d);font-weight:600}
+.pts.full b{color:var(--gold-d)}
+.cell{display:inline-flex;align-items:center;gap:4px}
+.cnt{min-width:34px;height:34px;border-radius:9px;border:1px solid transparent;background:transparent;font-weight:700;font-size:17px;color:#b7b3c2;padding:0 4px}
+.cnt.has{background:var(--teal-l);color:var(--teal-d);border-color:#c4e2da}
+.cnt.has:hover{background:#cbe7df}
+.cnt:hover{border-color:var(--line)}
+.add{width:34px;height:34px;border-radius:9px;border:1.5px solid var(--teal);background:#fff;color:var(--teal);display:grid;place-items:center;padding:0;transition:background .15s,color .15s}
+.add:hover{background:var(--teal);color:#fff}
+.add.busy{background:var(--teal);color:#fff;border-color:var(--teal);pointer-events:none;animation:pop .35s ease}
+.add:disabled{border-color:var(--line);color:#c9c2b0;background:#f6f3ea;cursor:not-allowed}
+.done{display:inline-flex;align-items:center;gap:4px;background:var(--teal);color:#fff;border:0;border-radius:9px;height:34px;padding:0 10px;font-weight:700;font-size:15px}
+@keyframes pop{0%{transform:scale(.8)}60%{transform:scale(1.15)}100%{transform:scale(1)}}
+.band6{background:var(--b6)!important}.band4{background:var(--b4)!important}.band2{background:var(--b2)!important}.bandm{background:var(--bm)!important}
+.dot{display:inline-block;width:9px;height:9px;border-radius:3px;margin-inline-end:5px;vertical-align:middle}
+
+/* ── نظام النقاط ── */
+.catbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.catchip{border:1.5px solid var(--line);background:#fff;border-radius:999px;padding:.3em .9em .3em .8em;font-weight:600;min-height:40px;display:inline-flex;gap:.5em;align-items:center}
+.catchip i{width:13px;height:13px;border-radius:50%;display:inline-block;flex:none}
+.catchip.on{color:#fff;border-color:transparent}
+.catchip.on i{background:#fff!important}
+.budget{border:1px solid var(--line);background:#fff;border-radius:12px;padding:8px 14px;min-width:230px;margin-inline-start:auto}
+.budget .big{font-size:21px;color:var(--teal-d)}
+.budget.out{border-color:#eccfc7;background:var(--rose-l)} .budget.out .big{color:var(--rose)}
+.budget .bar i{background:linear-gradient(90deg,var(--teal),#3aa392)}
+.segbar{display:flex;height:9px;border-radius:99px;overflow:hidden;background:#ece8f1;min-width:60px}
+.segbar i{display:block;height:100%}
+.segbar.thick{height:14px}
+.ptot{display:grid;gap:4px;min-width:84px} .ptot b{font-size:19.5px;color:var(--teal-d)}
+.catpts{display:inline-grid;place-items:center;min-width:40px;height:34px;border-radius:9px;font-weight:700;border:0;padding:0 8px}
+.legend{display:flex;gap:6px 16px;flex-wrap:wrap;font-size:14px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:12px;height:12px;border-radius:4px;display:inline-block}
+.cathead{display:flex;align-items:center;gap:8px;font-weight:700;font-size:16px;margin:14px 0 4px;padding-bottom:4px;border-bottom:2px solid}
+.cathead i{width:12px;height:12px;border-radius:50%} .cathead span{margin-inline-start:auto;font-size:14px}
+
+/* ── بوابة أولياء الأمور ── */
+.pwrap{min-height:100dvh;background:var(--bg)}
+.phead{background:radial-gradient(900px 400px at 85% -20%,#178577 0,transparent 60%),linear-gradient(160deg,#0a4a44,#06302d);color:#fff;padding:calc(18px + env(safe-area-inset-top)) 18px 54px;border-bottom:3px solid var(--gold)}
+.phead-in{max-width:620px;margin:auto;display:flex;gap:12px;align-items:center}
+.phead h1{font-size:22.5px} .phead p{margin:2px 0 0;opacity:.85;font-size:15px}
+.pbody{max-width:620px;margin:-38px auto 0;padding:0 14px 60px;display:grid;gap:14px}
+.ptotal{display:flex;align-items:baseline;gap:10px;margin-bottom:10px} .ptotal b{font-size:46.5px;line-height:1;color:var(--teal-d)}
+.pcats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin-top:12px}
+.pcat{border-radius:12px;padding:8px 12px;display:flex;justify-content:space-between;align-items:center;font-weight:600}
+.pcat b{font-size:20px}
+.pday{font-weight:700;font-size:15px;color:var(--muted);margin:12px 0 4px}
+.paward{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--line2)}
+.paward i{width:12px;height:12px;border-radius:50%;flex:none} .paward .t{flex:1;min-width:0} .paward small{display:block;color:var(--muted);font-size:13px}
+.qblock{border:1px solid var(--line);border-radius:12px;padding:12px;margin-bottom:10px;background:#fff}
+.qblock>b{display:block;margin-bottom:8px}
+.opts{display:flex;gap:6px;flex-wrap:wrap}
+.opt{border:1.500px solid var(--line);background:#fff;border-radius:10px;padding:.45em .9em;font-weight:600;min-height:42px}
+.opt.on{background:var(--teal);border-color:var(--teal);color:#fff}
+.rbar{display:grid;grid-template-columns:90px 1fr 84px;gap:8px;align-items:center;font-size:14.5px;margin:3px 0}
+.rbar .bar{margin:0;height:10px} .rbar .bar i{background:var(--teal)}
+
+/* ── list mode (phones) ── */
+.itempick{display:flex;gap:6px;overflow:auto;padding:2px 2px 8px;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch}
+.itempick .chip{flex:none;scroll-snap-align:start}
+.itemhead{padding:10px 14px;border-bottom:1px solid var(--line);display:flex;gap:10px;align-items:center;justify-content:space-between;background:#f5f2f9;border-radius:var(--r) var(--r) 0 0}
+.badge{display:inline-flex;align-items:center;border-radius:999px;padding:.12em .65em;font-size:14px;font-weight:700;color:#fff;white-space:nowrap}
+.slist .srow{display:flex;align-items:center;gap:10px;padding:8px 14px;border-bottom:1px solid var(--line2)}
+.slist .srow:last-child{border-bottom:0}
+.slist .srow.hl{background:var(--gold-l)}
+.slist .nm{flex:1;min-width:0;border:0;background:transparent;text-align:start;font-weight:600;padding:6px 0}
+.slist .cnt,.slist .add{width:44px;height:44px;min-width:44px;font-size:19.5px}
+
+/* ── dialogs ── */
+dialog{border:0;border-radius:18px;padding:0;width:min(560px,calc(100vw - 24px));max-height:calc(100dvh - 24px);color:var(--ink);background:var(--card);box-shadow:0 30px 80px rgba(0,0,0,.35)}
+dialog.wide{width:min(860px,calc(100vw - 24px))}
+dialog::backdrop{background:rgba(6,36,33,.55);backdrop-filter:blur(2px)}
+.dlg{display:flex;flex-direction:column;max-height:calc(100dvh - 24px)}
+.dlg-h{padding:14px 18px;border-bottom:1px solid var(--line);display:flex;gap:10px;align-items:flex-start;background:var(--teal-ll)}
+.dlg-h h2{font-size:19.5px} .dlg-h p{margin:2px 0 0;font-size:15px;color:var(--muted)}
+.dlg-b{padding:16px 18px;overflow:auto}
+.dlg-f{padding:12px 18px;border-top:1px solid var(--line);display:flex;gap:8px;justify-content:flex-start;flex-wrap:wrap;background:#faf9fc}
+.x{margin-inline-start:auto;border:0;background:transparent;width:36px;height:36px;border-radius:9px;display:grid;place-items:center;color:var(--muted)}
+.x:hover{background:rgba(0,0,0,.07)}
+.occ{border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-bottom:8px;background:#fff}
+.occ.del{opacity:.6;background:#f6f1ee;border-style:dashed}
+.occ-top{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.occ-n{width:26px;height:26px;border-radius:50%;background:var(--teal-l);color:var(--teal-d);display:grid;place-items:center;font-weight:700;font-size:14.5px;flex:none}
+.occ-meta{font-size:14.5px;color:var(--muted);margin-top:4px}
+.occ-note{margin-top:6px;background:var(--gold-ll);border-radius:8px;padding:6px 10px;font-size:16px;white-space:pre-wrap;word-break:break-word}
+.addbox{border:1.5px dashed #b9d8d0;border-radius:12px;padding:12px;background:var(--teal-ll);margin-top:12px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.sheet-item{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--line2)}
+.sheet-item .t{flex:1;min-width:0} .sheet-item .t small{display:block;color:var(--muted);font-size:14px}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:14px}
+.tile{border:1px solid var(--line);border-radius:12px;padding:10px 14px;background:#fff}
+.tile b{font-size:27.5px;display:block;color:var(--teal-d);line-height:1.2} .tile span{font-size:14.5px;color:var(--muted)}
+.tile.gold b{color:var(--gold-d)}
+.bar{height:8px;border-radius:99px;background:#ece8f1;overflow:hidden;margin-top:6px}
+.bar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--gold),#d5b072)}
+
+/* ── tables (reports/admin) ── */
+table.t{width:100%;border-collapse:collapse;font-size:16px}
+.t th,.t td{padding:7px 9px;border-bottom:1px solid var(--line2);text-align:start;vertical-align:middle}
+.t th{background:#f5f2f9;font-size:14.5px;white-space:nowrap;position:sticky;top:0}
+.t td.c,.t th.c{text-align:center}
+.t tr.grp td{background:var(--teal-l);font-weight:700;color:var(--teal-d)}
+.t th.v{writing-mode:vertical-rl;white-space:normal;max-height:150px;min-width:28px;text-align:start;vertical-align:bottom;padding:8px 4px;font-weight:600;line-height:1.25}
+.scroll{overflow:auto;max-height:calc(100dvh - 240px)}
+.subtabs{display:flex;gap:4px;border-bottom:2px solid var(--line);margin-bottom:14px;overflow:auto}
+.subtabs button{border:0;background:transparent;padding:.6em 1em;font-weight:600;color:var(--muted);border-bottom:3px solid transparent;margin-bottom:-2px;white-space:nowrap}
+.subtabs button.on{color:var(--teal-d);border-color:var(--teal)}
+.tag{display:inline-block;border-radius:6px;padding:.05em .5em;font-size:14px;font-weight:700;background:var(--line2);color:var(--muted)}
+.tag.ok{background:var(--teal-l);color:var(--teal-d)} .tag.off{background:var(--rose-l);color:var(--rose)} .tag.gold{background:var(--gold-l);color:var(--gold-d)}
+.print-head{display:none}
+
+/* ── toasts ── */
+#toasts{position:fixed;z-index:1000;bottom:calc(16px + env(safe-area-inset-bottom));inset-inline:0;display:flex;flex-direction:column;align-items:center;gap:8px;pointer-events:none;padding:0 12px}
+.toast{pointer-events:auto;background:#ffffff;color:#fff;border-radius:13px;padding:10px 14px;display:flex;gap:12px;align-items:center;box-shadow:0 10px 30px rgba(0,0,0,.3);max-width:560px;animation:up .2s ease}
+.toast.bad{background:#7d2b1c}
+.toast button{border:0;background:rgba(255,255,255,.14);color:#fff;border-radius:8px;padding:.3em .7em;font-weight:700;white-space:nowrap}
+@keyframes up{from{transform:translateY(10px);opacity:0}}
+.spin{width:18px;height:18px;border-radius:50%;border:2.5px solid rgba(15,107,98,.2);border-top-color:var(--teal);animation:rot .7s linear infinite;display:inline-block}
+@keyframes rot{to{transform:rotate(360deg)}}
+.loading{display:flex;gap:10px;align-items:center;justify-content:center;padding:40px;color:var(--muted)}
+
+/* ── display (شاشة العرض للطالبات) ── */
+.disp{min-height:100dvh;background:radial-gradient(1400px 700px at 85% -10%,#178577 0,transparent 60%),linear-gradient(160deg,#0a4a44,#052b28);color:#fff;padding:clamp(12px,2vw,28px)}
+.disp-h{display:flex;gap:16px;align-items:center;flex-wrap:wrap;margin-bottom:clamp(12px,2vw,24px)}
+.disp-h h1{font-size:clamp(20px,3vw,40px);font-weight:700} .disp-h p{margin:2px 0 0;opacity:.8;font-size:clamp(13px,1.4vw,19px)}
+.disp-tools{margin-inline-start:auto;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.disp-tools .seg{background:rgba(255,255,255,.12)} .disp-tools .seg button{color:#d7ebe6} .disp-tools .seg button.on{background:#fff;color:var(--teal-d)}
+.disp .btn.ghost{color:#fff;border-color:rgba(255,255,255,.25)}
+.disp-grid{display:grid;gap:clamp(10px,1.2vw,18px);grid-template-columns:repeat(auto-fill,minmax(clamp(210px,23vw,330px),1fr))}
+.dcard{background:#fffdf8;color:var(--ink);border-radius:18px;padding:clamp(12px,1.3vw,20px);position:relative;border:2px solid transparent;box-shadow:0 10px 30px rgba(0,0,0,.22)}
+.dcard.star{border-color:#e2c283;background:linear-gradient(180deg,#fff9ea,#fffdf8)}
+.dcard h3{font-size:clamp(14.5px,1.35vw,20px);margin-bottom:8px;padding-left:58px;min-height:2.7em;line-height:1.35}
+.dcard .big{position:absolute;top:12px;left:14px;display:flex;align-items:center;gap:4px;font-weight:700;font-size:clamp(17px,1.7vw,24px);color:var(--gold-d)}
+.dvals{display:flex;gap:5px;flex-wrap:wrap;min-height:28px;margin-top:10px}
+.dval{border-radius:999px;font-weight:700;padding:.1em .65em;font-size:clamp(11.5px,1vw,14.5px);font-weight:600}
+.dval b{margin-right:.4em;background:#fff;color:#1b2b29;border-radius:99px;padding:0 .45em;display:inline-block;min-width:1.5em;text-align:center}
+.dpts{margin-top:10px;font-size:clamp(12px,1vw,14.5px);color:var(--muted);display:flex;justify-content:space-between}
+.dpts b{color:var(--gold-d)}
+.disp .legend{color:#fff;margin-bottom:14px;font-size:clamp(13px,1.2vw,17px)} .disp .legend i{width:14px;height:14px}
+.disp-foot{margin-top:18px;opacity:.7;font-size:15px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+
+@media (max-width:760px){
+  .nav{order:5;width:100%;margin:0;overflow:auto}.nav button{flex:1;justify-content:center;padding:.5em .5em;font-size:15.5px}
+  .user .who{display:none} main{padding:12px 10px 90px} .g2{grid-template-columns:1fr}
+  .top h1{font-size:16.5px} .gridwrap{max-height:none}
+}
+@media print{
+  @page{size:A4 landscape;margin:10mm}
+  body{background:#fff;font-size:13px}
+  .top,.noprint,#toasts,.subtabs{display:none!important}
+  main{padding:0;max-width:none}
+  .card{box-shadow:none;border:0} .pad{padding:0}
+  .scroll{overflow:visible;max-height:none}
+  .print-head{display:block;margin-bottom:8px;border-bottom:2px solid #000;padding-bottom:6px}
+  .print-head h2{font-size:18.5px} .print-head p{margin:2px 0 0}
+  .t th{position:static;background:#eee!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .t th,.t td{border:1px solid #999;padding:3px 5px}
+  .t tr.grp td{background:#ddd!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  tr{break-inside:avoid}
+}
+
+/* ═══════════ التصميم الفاتح: خلفية باستيل، ألوان الأقسام الخمسة، بلا ألوان غامقة ═══════════ */
+:root{
+  --bg:#fbf9f6; --card:#ffffff; --ink:#2c3848; --muted:#7a8696; --line:#e9e5f0; --line2:#f2eff6;
+  --teal:#0f9a82; --teal-d:#0b8570; --teal-dd:#0b8570; --teal-l:#d6f5ee; --teal-ll:#effbf8;
+  --gold:#f2a93b; --gold-d:#b06d14; --gold-l:#fff0d6; --gold-ll:#fff8ea;
+  --rose:#d9483d; --rose-l:#fdeceb;
+  --b6:#0f9a82; --b4:#f2a93b; --b2:#5b9bf0; --bm:#a47bd0;
+  --r:18px; --shadow:0 1px 2px rgba(80,70,120,.05),0 10px 30px rgba(80,70,120,.08);
+  --mesh:radial-gradient(900px 520px at 100% -10%,#dcf6ef 0,transparent 60%),radial-gradient(720px 520px at -10% 8%,#ffecd6 0,transparent 55%),radial-gradient(820px 620px at 55% 112%,#ebe3fb 0,transparent 60%),radial-gradient(600px 420px at 8% 100%,#dcebff 0,transparent 60%);
+  --rainbow:linear-gradient(90deg,#5b9bf0,#35b97f,#f2b233,#a47bd0,#f08a3c);
+}
+body{background:var(--mesh),var(--bg);background-attachment:fixed}
+.lic{display:inline-flex;flex:none;line-height:0}
+.btn{border-radius:12px}
+.btn.primary{box-shadow:0 6px 16px rgba(15,154,130,.25)}
+.btn.gold{border-color:#ffdfa8}
+.btn.danger{border-color:#f7cfcb}
+.note{border-color:#ffe2ae;color:#8a5a12}
+.err{border-color:#f7cfcb}
+
+/* شاشات الدخول */
+.auth{background:var(--mesh),var(--bg)}
+.auth-card{border-top:0;box-shadow:0 24px 70px rgba(80,70,120,.16);position:relative;overflow:hidden;border:1px solid var(--line)}
+.auth-card::before{content:"";position:absolute;inset:0 0 auto 0;height:6px;background:var(--rainbow)}
+.logo{background:none!important;color:inherit;width:auto;height:auto;border-radius:0}
+
+/* الشريط العلوي */
+.top{background:rgba(255,255,255,.86);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);color:var(--ink);border-bottom:1px solid var(--line)}
+.top::after{content:"";display:block;height:4px;background:var(--rainbow)}
+.top .sub{opacity:1;color:var(--muted)}
+.nav{background:#f1eef6;border-radius:14px}
+.nav button{color:#687386;border-radius:11px;padding:.35em .85em}
+.nav button.on{background:#fff;color:var(--ink);box-shadow:0 2px 8px rgba(80,70,120,.14)}
+.user .who span{opacity:1;color:var(--muted)}
+.top .btn.ghost{color:var(--muted)}
+.top .btn.ghost:hover{background:#f1eef6}
+
+/* التبويبات والأقسام */
+.tab{border-radius:18px;background:rgba(255,255,255,.8)}
+.tab .ic,.tab.on .ic,.tab.on.gold .ic{background:none;width:auto;height:auto;color:inherit}
+.tab.on{background:linear-gradient(135deg,#eafaf6,#ffffff);border-color:var(--teal)}
+.tab.on.gold{background:linear-gradient(135deg,#fff5e0,#ffffff);border-color:var(--gold)}
+.catchip{padding:.25em 1em .25em .7em;min-height:44px;border-radius:16px;box-shadow:0 2px 6px rgba(80,70,120,.05)}
+.catchip.on{box-shadow:0 8px 18px rgba(80,70,120,.18)}
+.chip.on{box-shadow:0 6px 14px rgba(15,154,130,.22)}
+.budget{border-radius:16px}
+.band4{color:#5a3a06!important}
+.grid thead tr.bands th{color:#fff;font-weight:700}
+.grid .namecol{box-shadow:-6px 0 8px -6px rgba(80,70,120,.12)}
+.grid th.tot,.grid td.tot{box-shadow:6px 0 8px -6px rgba(80,70,120,.12)}
+.grid tr.hl td{background:#fff3d9!important}
+.grid th.item .no{border-color:var(--gold);color:var(--teal-d)}
+.cnt.has{border-color:#b9ecdf}
+.done{box-shadow:0 4px 10px rgba(15,154,130,.25)}
+.cathead{gap:8px}
+
+/* النوافذ والإشعارات */
+dialog{box-shadow:0 30px 80px rgba(80,70,120,.25);border:1px solid var(--line)}
+dialog::backdrop{background:rgba(150,140,180,.28);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
+.dlg-h{background:linear-gradient(135deg,#eefbf8,#f6f1ff)}
+.toast{color:var(--ink);border:1px solid var(--line);border-inline-start:6px solid var(--teal);box-shadow:0 14px 34px rgba(80,70,120,.2)}
+.toast.bad{background:#fff5f4;border-color:#f7cfcb;border-inline-start-color:var(--rose);color:#8f2a22}
+.toast button{background:#f1eef6;color:var(--ink)}
+.occ-n{background:var(--teal-l)}
+
+/* لوحة العرض للطالبات */
+.disp{background:var(--mesh),var(--bg);color:var(--ink)}
+.disp-h p{opacity:1;color:var(--muted)}
+.disp-tools .seg{background:#efecf5} .disp-tools .seg button{color:#687386} .disp-tools .seg button.on{background:#fff;color:var(--ink)}
+.disp .btn.ghost{color:var(--ink);border-color:var(--line);background:rgba(255,255,255,.7)}
+.disp .btn.ghost.on{background:var(--teal);border-color:var(--teal);color:#fff}
+.disp .legend{color:var(--ink)}
+.dcard{box-shadow:0 10px 28px rgba(80,70,120,.1);border:1.500px solid var(--line);border-radius:22px}
+.dcard.star{border-color:#ffd58a;background:linear-gradient(180deg,#fff8e8,#ffffff)}
+.dcard .big{color:var(--gold-d)}
+.disp-foot{opacity:1;color:var(--muted)}
+
+/* بوابة أولياء الأمور */
+.pwrap{background:var(--mesh),var(--bg)}
+.phead{background:rgba(255,255,255,.7);color:var(--ink);border-bottom:0;position:relative;padding-bottom:20px}
+.phead::after{content:"";position:absolute;inset:auto 0 0 0;height:4px;background:var(--rainbow)}
+.phead p{opacity:1;color:var(--muted)}
+.pbody{margin-top:16px}
+.pcat{border-radius:16px;gap:8px} .pcat span{flex:1}
+.pcard{font:inherit;color:inherit;text-align:start;cursor:pointer;display:block;width:100%}
+.pcard:hover{border-color:var(--teal)} .pcard:focus-visible{outline:3px solid var(--teal);outline-offset:2px}
+.ptotal b{background:linear-gradient(135deg,#0f9a82,#5b9bf0);-webkit-background-clip:text;background-clip:text;color:transparent}
+.legend span{gap:5px}
+@media (max-width:760px){.nav button{flex-direction:column;gap:1px;font-size:12.500px;padding:.35em .2em;white-space:nowrap;min-width:0}.nav .lic svg{width:26px;height:26px}}
+@media print{body{background:#fff}.top::after{display:none}}
+</style>
+</head>
+<body>
+<div id="app"><div class="loading"><span class="spin"></span> جارٍ التحميل…</div></div>
+<div id="toasts"></div>
+
+<script>
+"use strict";
+/* ═════════════════════════ أدوات عامة ═════════════════════════ */
+const $ = (s, r = document) => r.querySelector(s);
+function h(tag, attrs, ...kids) {
+  const e = document.createElement(tag);
+  let val;
+  for (const k in (attrs || {})) {
+    const v = attrs[k];
+    if (v == null || v === false) continue;
+    if (k === 'value') { val = v; continue; }
+    if (k.startsWith('on')) e.addEventListener(k.slice(2).toLowerCase(), v);
+    else if (k === 'class') e.className = v;
+    else if (k === 'html') e.innerHTML = v;
+    else if (k === 'style' && typeof v === 'object') Object.assign(e.style, v);
+    else if (v === true) e.setAttribute(k, '');
+    else e.setAttribute(k, v);
+  }
+  fillInto(e, kids);
+  if (val !== undefined) e.value = val;
+  return e;
+}
+function fillInto(e, kids) {
+  const add = c => {
+    if (c == null || c === false || c === '') return;
+    if (Array.isArray(c)) c.forEach(add);
+    else e.append(c instanceof Node ? c : document.createTextNode(String(c)));
+  };
+  kids.forEach(add);
+}
+// يستبدل محتوى العنصر (يقبل المصفوفات والقيم الفارغة)
+function put(e, ...kids) { e.textContent = ''; fillInto(e, kids); return e; }
+const svg = (d, s = 18) => h('span', { style: { display: 'inline-flex' }, html:
+  `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>` });
+const IC = {
+  plus: '<path d="M12 5v14M5 12h14"/>', check: '<path d="M5 12.5l4.5 4.5L19 7.5"/>', x: '<path d="M6 6l12 12M18 6L6 18"/>',
+  search: '<circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/>',
+  star: '<path fill="currentColor" stroke="none" d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4 6.1 20.5l1.2-6.5L2.5 9.4l6.6-.9z"/>',
+  heart: '<path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.600-7 10-7 10z"/>',
+  medal: '<circle cx="12" cy="14" r="5"/><path d="M8.500 9.500L6 3h4l2 4 2-4h4l-2.500 6.500"/>',
+  edit: '<path d="M4 20h4L19 9l-4-4L4 16v4z"/><path d="M13.500 6.500l4 4"/>', trash: '<path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13M10 11v6M14 11v6"/>',
+  print: '<path d="M7 9V3h10v6M7 18H4v-7h16v7h-3M7 14h10v7H7z"/>', xls: '<path d="M14 3H6v18h12V7z"/><path d="M14 3v4h4M9 12l5 6M14 12l-5 6"/>',
+  out: '<path d="M10 4H5v16h5M15 8l4 4-4 4M19 12H9"/>', key: '<circle cx="8" cy="15" r="4"/><path d="M11 12l9-9M16 7l3 3"/>',
+  screen: '<rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/>', grid: '<path d="M4 4h16v16H4zM4 10h16M10 4v16"/>',
+  list: '<path d="M8 6h12M8 12h12M8 18h12M4 6h.01M4 12h.01M4 18h.01"/>', chart: '<path d="M4 20V4M4 20h16M8 16v-5M12 16V8M16 16v-3"/>',
+  gear: '<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.900 4.900l2.100 2.100M17 17l2.100 2.100M4.900 19.100L7 17M17 7l2.100-2.100"/>',
+  lock: '<rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>', hist: '<path d="M4 12a8 8 0 1 0 2.500-5.800L4 8M4 4v4h4M12 8v4l3 2"/>',
+  next: '<path d="M9 6l6 6-6 6"/>', prev: '<path d="M15 6l-6 6 6 6"/>', full: '<path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/>', undo: '<path d="M9 7L4 12l5 5M4 12h10a6 6 0 0 1 0 12"/>'
+};
+// أيقونات ملوّنة متعددة الطبقات (خلفية ناعمة + شكل رئيسي + طبقة لون ثانية + لمعة)
+const LIC = {
+  star: '<rect x="5" y="7" width="38" height="36" rx="13" fill="#ffe9bd" transform="rotate(-8 24 25)"/><path d="M24 7.500l5 10.300 11.300 1.600-8.200 8 1.900 11.300L24 33.400l-10 5.300 1.900-11.300-8.200-8 11.300-1.600z" fill="#ffb020"/><path d="M24 7.500l5 10.300 11.300 1.600-8.200 8 1.900 11.300L24 33.400z" fill="#f59a0a"/><path d="M24 15l2.600 5.400 5.900.800-4.300 4.200 1 5.900-5.200-2.800z" fill="#ffd978" opacity=".9"/><circle cx="38.500" cy="10" r="3.200" fill="#ff7a59"/><circle cx="9.500" cy="37" r="2.200" fill="#5b9bf0"/>',
+  spark: '<circle cx="24" cy="24" r="19" fill="#d6f5ee"/><path d="M24 8c1.800 8.200 5.800 12.200 14 14-8.200 1.800-12.200 5.800-14 14-1.800-8.200-5.800-12.200-14-14 8.200-1.800 12.200-5.800 14-14z" fill="#12a58c"/><path d="M24 8c1.800 8.200 5.800 12.200 14 14-8.200 1.800-12.200 5.800-14 14z" fill="#0c8a75"/><circle cx="37" cy="11" r="3" fill="#ffb020"/><circle cx="11" cy="37.500" r="2.400" fill="#a47bd0"/>',
+  calendar: '<circle cx="24" cy="25" r="20" fill="#d9e8fd"/><rect x="9" y="12" width="30" height="27" rx="7" fill="#7db2f5"/><path d="M9 19a7 7 0 0 1 7-7h16a7 7 0 0 1 7 7v3H9z" fill="#2f6fb3"/><rect x="15" y="8" width="4" height="9" rx="2" fill="#1f4f86"/><rect x="29" y="8" width="4" height="9" rx="2" fill="#1f4f86"/><rect x="13" y="25" width="22" height="11" rx="4" fill="#fff"/><path d="M18.500 30.500l3.500 3.500 7-7" fill="none" stroke="#2fb37a" stroke-width="3.200" stroke-linecap="round" stroke-linejoin="round"/><circle cx="39" cy="38" r="3.400" fill="#ffb020"/>',
+  book: '<circle cx="24" cy="25" r="20" fill="#d5f1e2"/><path d="M24 14c-4-3-9-3.500-14-2v22c5-1.500 10-1 14 2z" fill="#2e8b57"/><path d="M24 14c4-3 9-3.500 14-2v22c-5-1.500-10-1-14 2z" fill="#5fcf97"/><path d="M24 14v22" stroke="#1f6b41" stroke-width="2"/><path d="M28.500 18c2.500-1.200 4.800-1.500 7-1.200M28.500 23c2.500-1.200 4.800-1.500 7-1.200" stroke="#fff" stroke-width="2" stroke-linecap="round" fill="none" opacity=".85"/><circle cx="36.500" cy="36" r="7" fill="#ffb020"/><path d="M36.500 39.500v-7m-3 3l3-3 3 3" fill="none" stroke="#fff" stroke-width="2.400" stroke-linecap="round" stroke-linejoin="round"/>',
+  heart: '<circle cx="24" cy="24" r="20" fill="#fdecc4"/><path d="M24 39s-14-8.600-14-19.200A8 8 0 0 1 24 14.600 8 8 0 0 1 38 19.800C38 30.400 24 39 24 39z" fill="#f2b233"/><path d="M24 39V14.600A8 8 0 0 1 38 19.800C38 30.400 24 39 24 39z" fill="#e0991a"/><path d="M15.500 18.500c1.200-2 3.200-2.800 5-2.300" fill="none" stroke="#fff" stroke-width="2.400" stroke-linecap="round" opacity=".9"/><circle cx="38" cy="11" r="3.200" fill="#ff7a59"/><circle cx="9" cy="33" r="2.200" fill="#35b97f"/>',
+  medal: '<circle cx="24" cy="25" r="20" fill="#ece0f8"/><path d="M15 6h8l4 12h-8z" fill="#a47bd0"/><path d="M33 6h-8l-4 12h8z" fill="#7a4fa3"/><circle cx="24" cy="29" r="11.500" fill="#ffcc4d"/><circle cx="24" cy="29" r="8" fill="#ffb020"/><path d="M24 23.500l1.800 3.600 4 .600-2.900 2.800.700 4-3.600-1.900-3.600 1.900.700-4-2.900-2.800 4-.600z" fill="#fff"/>',
+  shapes: '<circle cx="24" cy="25" r="20" fill="#fde5cf"/><rect x="9" y="22" width="17" height="17" rx="5" fill="#5b9bf0"/><circle cx="31" cy="18" r="10" fill="#f08a3c"/><circle cx="31" cy="18" r="5" fill="#ffc48f" opacity=".85"/><path d="M29 41l8-13 8 13z" fill="#35b97f"/><circle cx="12" cy="13" r="3" fill="#a47bd0"/>',
+  sheet: '<rect x="6" y="8" width="36" height="34" rx="12" fill="#d6f5ee"/><rect x="11" y="11" width="26" height="28" rx="6" fill="#12a58c"/><rect x="11" y="11" width="26" height="9" rx="6" fill="#0c8a75"/><path d="M16 26h8M16 32h8" stroke="#fff" stroke-width="2.800" stroke-linecap="round"/><circle cx="30.500" cy="26" r="2" fill="#ffd978"/><circle cx="30.500" cy="32" r="2" fill="#ffd978"/><circle cx="37" cy="37" r="7" fill="#ffb020"/><path d="M37 33.500v7m-3.500-3.500h7" stroke="#fff" stroke-width="2.400" stroke-linecap="round"/>',
+  chart: '<rect x="6" y="7" width="36" height="35" rx="12" fill="#e0e8ff"/><rect x="12" y="24" width="6.500" height="13" rx="3" fill="#5b9bf0"/><rect x="20.800" y="17" width="6.500" height="20" rx="3" fill="#12a58c"/><rect x="29.500" y="12" width="6.500" height="25" rx="3" fill="#f2a93b"/><path d="M11 20l8-6 6 3 10-8" fill="none" stroke="#a47bd0" stroke-width="2.400" stroke-linecap="round" stroke-linejoin="round"/><circle cx="35" cy="9" r="3" fill="#ff7a59"/>',
+  screen: '<rect x="5" y="9" width="38" height="32" rx="12" fill="#ffe1ec"/><rect x="9" y="11" width="30" height="21" rx="5" fill="#f06a9b"/><rect x="12" y="14" width="24" height="15" rx="3" fill="#fff"/><path d="M24 16.500l1.700 3.400 3.800.500-2.700 2.700.600 3.700-3.400-1.800-3.400 1.800.600-3.700-2.700-2.700 3.800-.500z" fill="#ffb020"/><rect x="21.500" y="32" width="5" height="5" fill="#d24c80"/><rect x="15" y="36.500" width="18" height="4" rx="2" fill="#f06a9b"/>',
+  gear: '<circle cx="24" cy="24" r="20" fill="#e6e9f2"/><g fill="#8793ad"><rect x="21" y="6" width="6" height="36" rx="2.500"/><rect x="21" y="6" width="6" height="36" rx="2.500" transform="rotate(45 24 24)"/><rect x="21" y="6" width="6" height="36" rx="2.500" transform="rotate(90 24 24)"/><rect x="21" y="6" width="6" height="36" rx="2.500" transform="rotate(135 24 24)"/></g><circle cx="24" cy="24" r="12.500" fill="#6b7895"/><circle cx="24" cy="24" r="6.500" fill="#fff"/><circle cx="24" cy="24" r="3" fill="#ffb020"/>',
+  shield: '<circle cx="24" cy="24" r="20" fill="#fff0d0"/><path d="M24 7l13 5v10c0 9-5.600 15.500-13 19-7.400-3.500-13-10-13-19V12z" fill="#f2b233"/><path d="M24 7l13 5v10c0 9-5.600 15.500-13 19z" fill="#e0991a"/><path d="M17.500 23.500l4.500 4.500 8.500-9" fill="none" stroke="#fff" stroke-width="3.400" stroke-linecap="round" stroke-linejoin="round"/><circle cx="38" cy="37" r="3" fill="#5b9bf0"/>',
+  survey: '<circle cx="24" cy="25" r="20" fill="#ece0f8"/><rect x="11" y="10" width="26" height="31" rx="6" fill="#a47bd0"/><rect x="14.500" y="14" width="19" height="23.500" rx="3" fill="#fff"/><rect x="18" y="7" width="12" height="7" rx="3.500" fill="#7a4fa3"/><path d="M18 21.500l1.800 1.800 3.200-3.400M18 29.500l1.800 1.800 3.200-3.400" fill="none" stroke="#35b97f" stroke-width="2.200" stroke-linecap="round" stroke-linejoin="round"/><path d="M26 22h5M26 30h5" stroke="#cdb8e6" stroke-width="2.400" stroke-linecap="round"/><circle cx="38" cy="12" r="3" fill="#ffb020"/>',
+  family: '<circle cx="24" cy="25" r="20" fill="#dcebff"/><path d="M8 24L24 10l16 14z" fill="#ff8a65"/><path d="M24 10l16 14H24z" fill="#f4703f"/><rect x="12" y="23" width="24" height="17" rx="4" fill="#7db2f5"/><rect x="24" y="23" width="12" height="17" rx="4" fill="#5b9bf0"/><path d="M24 36.500s-5-3-5-6.600a2.800 2.800 0 0 1 5-1.700 2.800 2.800 0 0 1 5 1.700c0 3.600-5 6.600-5 6.600z" fill="#fff"/><circle cx="38" cy="12" r="3" fill="#ffb020"/>'
+};
+const lic = (name, size = 28) => h('span', { class: 'lic', html: `<svg width="${size}" height="${size}" viewBox="0 0 48 48" aria-hidden="true">${LIC[name] || LIC.spark}</svg>` });
+const GRADES = ['الأول', 'الثاني', 'الثالث', 'الرابع', 'الخامس', 'السادس'];
+const ROLES = { counselor: 'الموجهة الطلابية', teacher: 'معلمة', display: 'شاشة عرض' };
+// أقسام النقاط وألوانها (نقطتان لكل منحة)
+const CATS = [
+  { id: 'discipline', ic: 'calendar', name: 'الانضباط', c: '#3d86dd', s: '#e3effd', t: '#fff', hint: 'أسبوع كامل دون غياب — تمنحها الموجهة الطلابية من رصيدها' },
+  { id: 'academic', ic: 'book', name: 'التحصيل الدراسي', c: '#27a56e', s: '#dff5ea', t: '#fff', hint: 'تحسّن المستوى الدراسي' },
+  { id: 'values', ic: 'heart', name: 'القيم', c: '#e3a116', s: '#fdf1cf', t: '#4a3200', k: '#a8700a', hint: 'تمثّلت الطالبة بقيمة من القيم التسع' },
+  { id: 'behavior', ic: 'medal', name: 'السلوك الإيجابي', c: '#9466c9', s: '#f0e8fa', t: '#fff', hint: 'سلوك إيجابي — يُحتسب أيضًا في درجات السلوك المتميز' },
+  { id: 'activity', ic: 'shapes', name: 'الأنشطة', c: '#ee8236', s: '#fdeada', t: '#fff', hint: 'المشاركة في الأنشطة — يُحتسب الرسمي منها في درجات السلوك المتميز' }];
+const catOf = id => CATS.find(c => c.id === id);
+CATS.forEach(c => { c.k = c.k || c.c; });
+const ptsWord = n => n === 1 ? 'نقطة' : n === 2 ? 'نقطتان' : (n >= 3 && n <= 10) ? n + ' نقاط' : n + ' نقطة';
+const girlsWord = n => n === 1 ? 'طالبة واحدة' : n === 2 ? 'طالبتين' : (n >= 3 && n <= 10) ? n + ' طالبات' : n + ' طالبة';
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+const uuid = () => (crypto.randomUUID ? crypto.randomUUID() :
+  ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c => (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)));
+const norm = s => (s || '').replace(/[ً-ْـ]/g, '').replace(/[أإآ]/g, 'ا').replace(/ة/g, 'ه').replace(/ى/g, 'ي').replace(/\s+/g, ' ').trim().toLowerCase();
+const pd = s => new Date(s + 'T12:00:00Z');
+const iso = d => d.toISOString().slice(0, 10);
+const fG = new Intl.DateTimeFormat('ar-u-ca-gregory-nu-latn', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
+const fGs = new Intl.DateTimeFormat('ar-u-ca-gregory-nu-latn', { day: 'numeric', month: 'short', timeZone: 'UTC' });
+let fH; try { fH = new Intl.DateTimeFormat('ar-SA-u-ca-islamic-umalqura-nu-latn', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }); } catch (e) { fH = null; }
+const fT = new Intl.DateTimeFormat('ar-u-ca-gregory-nu-latn', { day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit', timeZone: 'Asia/Riyadh' });
+const dLong = s => s ? fG.format(pd(s)) : '';
+const dHijri = s => (s && fH) ? fH.format(pd(s)).replace(/\s*هـ?$/, '') + ' هـ' : '';
+const dShort = s => s ? fGs.format(pd(s)) : '';
+const tStamp = s => s ? fT.format(new Date(s)) : '';
+const classLabel = c => c ? `الصف ${GRADES[c.grade - 1]} / فصل ${c.section}` : '';
+const classShort = c => c ? `${GRADES[c.grade - 1]} (${c.section})` : '';
+
+function toast(msg, opts = {}) {
+  const t = h('div', { class: 'toast' + (opts.bad ? ' bad' : ''), role: 'status' }, h('span', { class: 'grow' }, msg));
+  const kill = () => t.remove();
+  (opts.actions || []).forEach(a => t.append(h('button', { onClick: () => { kill(); a.fn(); } }, a.label)));
+  const host = [...document.querySelectorAll('dialog[open]')].pop() || document.body, box = $('#toasts');
+  if (box.parentNode !== host) host.append(box);
+  if (opts.actions) box.querySelectorAll('.toast.act').forEach(x => x.remove());
+  if (opts.actions) t.classList.add('act');
+  box.append(t);
+  while ($('#toasts').children.length > 3) $('#toasts').firstChild.remove();
+  setTimeout(kill, opts.ms || (opts.actions ? 7000 : 3500));
+}
+const oops = e => toast(e && e.message ? e.message : 'حدث خطأ غير متوقع', { bad: true, ms: 6000 });
+
+function dialog({ title, sub, body, footer, wide, onClose }) {
+  const d = h('dialog', { class: wide ? 'wide' : '' });
+  const close = () => { if (d.open) d.close(); };
+  d.append(h('div', { class: 'dlg' },
+    h('div', { class: 'dlg-h' }, h('div', { class: 'grow' }, h('h2', null, title), sub ? h('p', null, sub) : null),
+      h('button', { class: 'x', 'aria-label': 'إغلاق', onClick: close }, svg(IC.x))),
+    h('div', { class: 'dlg-b' }, body), footer ? h('div', { class: 'dlg-f' }, footer) : null));
+  d.addEventListener('click', e => { if (e.target === d) close(); });
+  d.addEventListener('close', () => { const box = $('#toasts'); if (d.contains(box)) ([...document.querySelectorAll('dialog[open]')].pop() || document.body).append(box); d.remove(); onClose && onClose(); });
+  document.body.append(d); d.showModal();
+  return { el: d, close, body: $('.dlg-b', d) };
+}
+function confirmBox(title, text, okLabel = 'تأكيد', danger = true) {
+  return new Promise(res => {
+    let ans = false;
+    const dl = dialog({ title, body: h('p', { style: { margin: 0 } }, text), onClose: () => res(ans),
+      footer: [h('button', { class: 'btn ' + (danger ? 'danger' : 'primary'), onClick: () => { ans = true; dl.close(); } }, okLabel),
+               h('button', { class: 'btn', onClick: () => dl.close() }, 'تراجع')] });
+  });
+}
+
+/* ═════════════════════════ الاتصال ═════════════════════════ */
+const S = { cfg: null, token: null, user: null, classes: [], items: [], terms: [], students: [], cap: 20, today: null,
+  view: 'record', classId: null, sec: 'points', cat: 'all', budget: null, termId: null, preset: 'term', from: null, to: null,
+  sum: null, mode: null, listItem: {}, busy: new Set(), hl: null, refreshers: new Set() };
+
+function loadCfg() {
+  // الرابط قد يحمل إعداد الاتصال (c=...) وعلامة بوابة أولياء الأمور (parent)
+  try {
+    const parts = location.hash.replace(/^#/, '').split('&').filter(Boolean);
+    const k = parts.find(x => x.startsWith('k='));
+    S.pkey = k ? k.slice(2) : null; S.parent = !!S.pkey;
+    const c = parts.find(x => x.startsWith('c='));
+    if (c) {
+      const j = JSON.parse(decodeURIComponent(escape(atob(c.slice(2).replace(/-/g, '+').replace(/_/g, '/')))));
+      if (j.u && j.k !== undefined) localStorage.setItem('kh_cfg', JSON.stringify({ url: j.u, key: j.k }));
+      history.replaceState(null, '', location.pathname + location.search + (S.parent ? '#k=' + S.pkey : ''));
+    }
+  } catch (e) {}
+  if (CONFIG.url) return { url: CONFIG.url.replace(/\/+$/, ''), key: CONFIG.key };
+  try { const c = JSON.parse(localStorage.getItem('kh_cfg') || 'null'); if (c && c.url) return c; } catch (e) {}
+  return null;
+}
+const cfgHash = () => 'c=' + btoa(unescape(encodeURIComponent(JSON.stringify({ u: S.cfg.url, k: S.cfg.key })))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+const shareLink = () => location.origin + location.pathname + (CONFIG.url ? '' : '#' + cfgHash());
+const parentLink = key => location.origin + location.pathname + '#' + (CONFIG.url ? '' : cfgHash() + '&') + 'k=' + key;
+window.addEventListener('hashchange', () => { if (/(^#|&)(k=|c=)/.test(location.hash)) location.reload(); });
+
+async function rpc(fn, args = {}, auth = true) {
+  const headers = { 'Content-Type': 'application/json' };
+  if (S.cfg.key) { headers.apikey = S.cfg.key; if (S.cfg.key.startsWith('eyJ')) headers.Authorization = 'Bearer ' + S.cfg.key; }
+  let res;
+  try {
+    res = await fetch(S.cfg.url + '/rest/v1/rpc/' + fn, { method: 'POST', headers, body: JSON.stringify(auth ? { p_token: S.token, ...args } : args) });
+  } catch (e) { const err = new Error('تعذر الاتصال بالخادم. تحققي من الإنترنت ثم أعيدي المحاولة.'); err.net = true; throw err; }
+  let data = null; try { data = await res.json(); } catch (e) {}
+  if (!res.ok) {
+    const err = new Error((data && data.message) || ('خطأ في الخادم (' + res.status + ')')); err.hint = data && data.hint;
+    if (data && data.hint === 'SESSION') { err.session = true; if (!S.parent) signedOut(); }
+    if (res.status >= 500) err.net = true;
+    throw err;
+  }
+  return data;
+}
+// إعادة المحاولة بالمعرّف نفسه: الخادم لا ينشئ واقعة ثانية للطلب نفسه
+async function rpcRetry(fn, args) {
+  for (let i = 0; ; i++) {
+    try { return await rpc(fn, args); }
+    catch (e) { if (!e.net || i >= 2) throw e; await sleep(700 * (i + 1)); }
+  }
+}
+
+/* ═════════════════════════ التشغيل ═════════════════════════ */
+async function boot() {
+  S.cfg = loadCfg();
+  if (S.parent) return parentBoot();
+  if (!S.cfg) return screenConfig();
+  let st;
+  try { st = await rpc('kh_status', {}, false); }
+  catch (e) { return screenConfig(e.message); }
+  if (st.needs_setup) return screenSetup();
+  S.token = localStorage.getItem('kh_token');
+  if (!S.token) return screenLogin();
+  try { await loadInit(); } catch (e) { if (!e.session) screenLogin(e.message); return; }
+  enterApp();
+}
+async function loadInit() {
+  const d = await rpc('kh_init');
+  Object.assign(S, { budget: d.budget, pw: d.pw || {}, user: d.user, classes: d.classes, items: d.items, terms: d.terms, students: d.students, cap: d.cap, today: d.today });
+  if (!S.terms.find(t => t.id === S.termId)) {
+    const cur = S.terms.find(t => t.start <= S.today && S.today <= t.end) || [...S.terms].reverse().find(t => t.start <= S.today) || S.terms[0];
+    S.termId = cur ? cur.id : null;
+  }
+  if (!S.classes.find(c => c.id === S.classId)) S.classId = +localStorage.getItem('kh_class') || (S.classes[0] && S.classes[0].id);
+  if (!S.classes.find(c => c.id === S.classId)) S.classId = S.classes[0] && S.classes[0].id;
+}
+function signedOut() { localStorage.removeItem('kh_token'); S.token = null; S.user = null; document.querySelectorAll('dialog').forEach(d => d.close()); screenLogin('انتهت جلسة الدخول، فضلًا ادخلي من جديد'); }
+const authShell = (wide, ...kids) => h('div', { class: 'auth' }, h('div', { class: 'auth-card' + (wide ? ' wide' : '') },
+  h('div', { class: 'brand' }, h('div', { class: 'logo' }, lic('star', 54)), h('div', null, h('h1', null, 'رصد القيم والسلوك المتميز'), h('p', null, SCHOOL))), ...kids));
+const mount = n => { put($('#app'), n); window.scrollTo(0, 0); };
+function formErr(box, msg) { put(box, msg ? h('div', { class: 'err' }, msg) : ''); }
+
+function screenConfig(msg) {
+  const eb = h('div'); formErr(eb, msg);
+  const u = h('input', { type: 'text', dir: 'ltr', placeholder: 'https://xxxxxxxx.supabase.co', value: (S.cfg && S.cfg.url) || '', autocomplete: 'off' });
+  const k = h('textarea', { dir: 'ltr', placeholder: 'eyJ...  أو  sb_publishable_...', style: { minHeight: '90px', fontSize: '12.5px' } }, (S.cfg && S.cfg.key) || '');
+  const go = async ev => {
+    ev.preventDefault();
+    S.cfg = { url: u.value.trim().replace(/\/+$/, ''), key: k.value.trim() };
+    if (!/^https?:\/\//.test(S.cfg.url)) return formErr(eb, 'اكتبي رابط المشروع كاملًا ويبدأ بـ https://');
+    try { await rpc('kh_status', {}, false); localStorage.setItem('kh_cfg', JSON.stringify(S.cfg)); boot(); }
+    catch (e) { formErr(eb, 'تعذر الاتصال بقاعدة البيانات. تأكدي من الرابط والمفتاح، ومن تشغيل ملف الإعداد في Supabase. (' + e.message + ')'); }
+  };
+  mount(authShell(true, h('h2', { style: { fontSize: '16px', marginBottom: '6px' } }, 'ربط الموقع بقاعدة البيانات'),
+    h('p', { class: 'muted small', style: { marginTop: 0 } }, 'هذه الخطوة تُجرى مرة واحدة. بعد الدخول ستجدين في «الإدارة ← الإعدادات» رابطًا جاهزًا ترسلينه للمعلمات فلا يُطلب منهن شيء.'),
+    eb, h('form', { onSubmit: go },
+      h('label', { class: 'field' }, h('span', null, 'Project URL'), u),
+      h('label', { class: 'field' }, h('span', null, 'API Key (anon / publishable)'), k),
+      h('button', { class: 'btn primary', style: { width: '100%' } }, 'اتصال'))));
+}
+
+function screenSetup() {
+  const eb = h('div');
+  const f = { code: h('input', { type: 'text', inputmode: 'numeric', dir: 'ltr', autocomplete: 'off', maxlength: 6 }),
+    name: h('input', { type: 'text', autocomplete: 'name' }), pass: h('input', { type: 'text', dir: 'ltr', autocomplete: 'off', autocapitalize: 'none', spellcheck: 'false' }),
+    term: h('input', { type: 'text', value: 'الفصل الدراسي الأول' }), start: h('input', { type: 'date' }), end: h('input', { type: 'date' }) };
+  const go = async ev => {
+    ev.preventDefault(); formErr(eb);
+    try {
+      const r = await rpc('kh_setup', { p_code: f.code.value, p_name: f.name.value, p_password: f.pass.value,
+        p_term_name: f.term.value, p_term_start: f.start.value || null, p_term_end: f.end.value || null }, false);
+      S.token = r.token; localStorage.setItem('kh_token', r.token); await loadInit(); enterApp();
+    } catch (e) { formErr(eb, e.message); }
+  };
+  mount(authShell(true, h('h2', { style: { fontSize: '16px', marginBottom: '6px' } }, 'تهيئة الموقع — حساب الموجهة الطلابية'),
+    h('p', { class: 'muted small', style: { marginTop: 0 } }, 'رمز التهيئة يظهر في Supabase بعد تشغيل ملف الإعداد. تُجرى هذه الخطوة مرة واحدة فقط.'), eb,
+    h('form', { onSubmit: go },
+      h('div', { class: 'g2' }, h('label', { class: 'field' }, h('span', null, 'رمز التهيئة (6 أرقام)'), f.code),
+        h('label', { class: 'field' }, h('span', null, 'اسمك كما يظهر في السجلات'), f.name)),
+      h('label', { class: 'field' }, h('span', null, 'كلمة مرور الموجهة الطلابية (خاصة بك)'), f.pass),
+      h('p', { class: 'note small', style: { marginTop: 0 } }, '6 خانات على الأقل وفيها حروف. هذه الكلمة تفتح صلاحيات الإدارة فاحتفظي بها لنفسك. المعلمات يدخلن بآخر أربعة أرقام من الهوية، وتضيفينهن بعد الدخول من «الإدارة ← المعلمات».'),
+      h('label', { class: 'field' }, h('span', null, 'اسم الفصل الدراسي الحالي'), f.term),
+      h('div', { class: 'g2' }, h('label', { class: 'field' }, h('span', null, 'تاريخ بدايته'), f.start), h('label', { class: 'field' }, h('span', null, 'تاريخ نهايته'), f.end)),
+      h('button', { class: 'btn primary', style: { width: '100%' } }, 'حفظ والدخول'))));
+}
+
+// المعلمة تدخل بآخر أربعة أرقام من هويتها. الموجهة الطلابية وشاشة العرض بكلمة مرور.
+function screenLogin(msg, admin) {
+  const eb = h('div'); formErr(eb, msg);
+  const p = admin ? h('input', { type: 'password', dir: 'ltr', autocomplete: 'current-password', style: { fontSize: '18px', textAlign: 'center' } })
+    : h('input', { type: 'password', dir: 'ltr', inputmode: 'numeric', pattern: '[0-9٠-٩]*', maxlength: 6, autocomplete: 'off', placeholder: '••••', style: { fontSize: '26px', textAlign: 'center', letterSpacing: '.4em' } });
+  const b = h('button', { class: 'btn primary', style: { width: '100%' } }, 'دخول');
+  const go = async ev => {
+    ev.preventDefault(); b.disabled = true; formErr(eb);
+    try {
+      const r = await rpc('kh_login', { p_password: p.value }, false);
+      if (!r.ok) { formErr(eb, r.error); p.value = ''; p.focus(); }
+      else { S.token = r.token; localStorage.setItem('kh_token', r.token); await loadInit(); enterApp(); }
+    } catch (e) { if (!e.session) formErr(eb, e.message); } finally { b.disabled = false; }
+  };
+  mount(authShell(false, eb, h('form', { onSubmit: go },
+    h('label', { class: 'field' }, h('span', null, admin ? 'كلمة مرور الموجهة الطلابية أو شاشة العرض' : 'آخر أربعة أرقام من الهوية'), p), b),
+    h('p', { class: 'muted tiny', style: { textAlign: 'center', margin: '14px 0 6px' } }, admin ? '' : 'إن لم تُقبل أرقامك راجعي الموجهة الطلابية.'),
+    h('button', { class: 'btn ghost sm', style: { width: '100%' }, onClick: () => screenLogin(null, !admin) }, admin ? 'رجوع إلى دخول المعلمات' : 'دخول الموجهة الطلابية / شاشة العرض')));
+  p.focus();
+}
+
+/* ═════════════════════════ بوابة أولياء الأمور ═════════════════════════ */
+const RATE = [[5, 'ممتاز'], [4, 'جيد جدًا'], [3, 'جيد'], [2, 'مقبول'], [1, 'ضعيف']];
+async function parentBoot() {
+  document.title = 'نقاط التميّز — ' + SCHOOL;
+  if (!S.cfg) return mount(authShell(false, h('div', { class: 'err' }, 'الرابط غير مكتمل. فضلًا اطلبوا رابط فصل ابنتكم من المدرسة وافتحوه كما وصلكم.')));
+  parentHome();
+}
+// صفحة الفصل لأولياء الأمور: عرض فقط، بلا دخول
+async function parentHome() {
+  const P = S.pv = S.pv || { sort: 'name' };
+  mount(h('div', { class: 'pwrap' }, h('div', { class: 'loading' }, h('span', { class: 'spin' }), ' جارٍ التحميل…')));
+  let v; try { v = await rpc('kh_parent_class', { p_key: S.pkey }, false); } catch (e) { return mount(authShell(false, h('div', { class: 'err' }, e.message), h('button', { class: 'btn', onClick: parentHome }, 'إعادة المحاولة'))); }
+  const rows = v.students.map(s => ({ ...s, total: CATS.reduce((a, c) => a + (s.cats[c.id] || 0), 0) }));
+  const mx = Math.max(1, ...rows.map(r => r.total)), list = h('div', { class: 'disp-grid' });
+  const draw = () => put(list, [...rows].sort((a, b) => P.sort === 'top' ? b.total - a.total : 0).map(s => h('button', { class: 'dcard pcard', title: 'عرض التفاصيل', onClick: () => parentStudent(s, v) },
+    h('div', { class: 'big num' }, lic('star', 30), s.total),
+    h('h3', null, s.name),
+    segBar(s, mx, true),
+    h('div', { class: 'dvals' }, CATS.filter(k => s.cats[k.id]).map(k => h('span', { class: 'dval', style: { background: k.s, color: k.k } }, k.name, h('b', { class: 'num' }, s.cats[k.id])))),
+    h('div', { class: 'tiny muted', style: { marginTop: '8px' } }, s.week ? 'هذا الأسبوع: ' + ptsWord(s.week) : 'لا نقاط هذا الأسبوع بعد'))));
+  const seg = h('div', { class: 'seg' }); const drawSeg = () => put(seg, [['name', 'بالاسم'], ['top', 'الأكثر نقاطًا']].map(([k, l]) => h('button', { class: P.sort === k ? 'on' : '', onClick: () => { P.sort = k; drawSeg(); draw(); } }, l)));
+  drawSeg(); draw();
+  mount(h('div', { class: 'pwrap' },
+    h('div', { class: 'phead' }, h('div', { class: 'phead-in', style: { maxWidth: '1100px' } }, h('div', { class: 'logo' }, lic('star', 56)),
+      h('div', { class: 'grow' }, h('h1', null, 'نقاط التميّز — ' + v.class), h('p', null, SCHOOL + (v.term ? ' · ' + v.term.name : ''))))),
+    h('div', { class: 'pbody', style: { maxWidth: '1100px' } },
+      v.surveys.map(sv => h('div', { class: 'card pad', style: { borderInlineStart: '5px solid #a47bd0' } }, h('div', { class: 'row' }, lic('survey', 38),
+        h('div', { class: 'grow' }, h('div', { class: 'small muted' }, 'استبانة من المدرسة لأولياء الأمور'), h('b', { style: { fontSize: '16px' } }, sv.title)),
+        h('button', { class: 'btn gold', onClick: () => parentSurvey(sv, v) }, 'المشاركة في الاستبانة')))),
+      h('div', { class: 'row' }, h('div', { class: 'grow' }, legend()), seg),
+      rows.length ? list : h('div', { class: 'card pad muted' }, 'لا توجد طالبات في هذا الفصل.'),
+      h('p', { class: 'tiny muted', style: { textAlign: 'center', margin: 0 } }, `اضغطوا على اسم الطالبة لمعرفة في ماذا حصلت على النقاط · آخر تحديث: ${dLong(v.today)} · ${dHijri(v.today)}`))));
+}
+function parentStudent(s, v) {
+  const days = []; s.awards.forEach(a => { const d = days[days.length - 1]; if (d && d.date === a.date) d.items.push(a); else days.push({ date: a.date, items: [a] }); });
+  dialog({ title: s.name, sub: v.class + (v.term ? ' · ' + v.term.name : ''), body: [
+    h('div', { class: 'ptotal' }, h('b', { class: 'num' }, s.total), h('span', { class: 'muted' }, 'نقطة'), h('span', { class: 'tag ok', style: { marginInlineStart: 'auto' } }, 'هذا الأسبوع: ' + (s.week ? ptsWord(s.week) : 'لا نقاط بعد'))),
+    segBar(s, s.total || 1, true),
+    h('div', { class: 'pcats' }, CATS.map(c => h('div', { class: 'pcat', style: { background: c.s, color: c.k } }, lic(c.ic, 30), h('span', null, c.name), h('b', { class: 'num' }, s.cats[c.id] || 0)))),
+    h('div', { class: 'section-title', style: { marginTop: '16px' } }, 'في ماذا حصلت على النقاط؟'),
+    days.length ? days.map(d => [h('div', { class: 'pday' }, dLong(d.date)),
+      d.items.map(a => { const c = catOf(a.cat) || { c: '#888', name: '' }; return h('div', { class: 'paward' }, c.ic ? lic(c.ic, 30) : h('i', { style: { background: c.c } }), h('div', { class: 't' }, a.item, h('small', null, c.name)), h('b', { style: { color: c.k || c.c, whiteSpace: 'nowrap' } }, ptsWord(a.award))); })])
+    : h('p', { class: 'muted', style: { margin: 0 } }, 'لم تُسجَّل نقاط بعد في هذا الفصل الدراسي.')] });
+}
+function parentSurvey(sv, v) {
+  const ans = {}, eb = h('div');
+  const who = h('select', { id: 'sv-student' }, h('option', { value: '' }, '— اختاروا اسم الطالبة —'), v.students.map(s => h('option', { value: s.id }, s.name)));
+  const parent = h('input', { type: 'text', id: 'sv-parent', maxlength: 80, autocomplete: 'name', placeholder: 'الاسم الثلاثي' });
+  const pick = (q, opts) => { const box = h('div', { class: 'opts' }); const draw = () => put(box, opts.map(([val, label]) => h('button', { type: 'button', class: 'opt' + (ans[q.id] === val ? ' on' : ''), onClick: () => { ans[q.id] = val; draw(); } }, label))); draw(); return box; };
+  const body = h('div', null, sv.intro ? h('p', { style: { marginTop: 0 } }, sv.intro) : null,
+    h('div', { class: 'g2' }, h('label', { class: 'field' }, h('span', null, 'اسم الطالبة (إلزامي)'), who), h('label', { class: 'field' }, h('span', null, 'اسم ولي الأمر (إلزامي)'), parent)),
+    h('p', { class: 'note small', style: { marginTop: 0 } }, 'إجاباتكم تُحفظ بالاسمين وتطّلع عليها الموجهة الطلابية. المشاركة مرة واحدة عن كل طالبة.'),
+    sv.questions.map((q, i) => h('div', { class: 'qblock' }, h('b', null, `${i + 1}. ${q.text}`),
+      q.type === 'rating' ? pick(q, RATE) : q.type === 'choice' ? pick(q, q.options.map(o => [o, o])) :
+        (() => { const t = h('textarea', { maxlength: 1000, placeholder: 'اختياري' }); t.addEventListener('input', () => { ans[q.id] = t.value; }); return t; })())), eb);
+  const send = h('button', { class: 'btn primary', onClick: async () => {
+    if (!who.value) return formErr(eb, 'فضلًا اختاروا اسم الطالبة');
+    if (parent.value.trim().length < 3) return formErr(eb, 'فضلًا اكتبوا اسم ولي الأمر');
+    const miss = sv.questions.find(q => q.type !== 'text' && ans[q.id] === undefined);
+    if (miss) return formErr(eb, 'فضلًا أجيبوا عن السؤال: ' + miss.text);
+    send.disabled = true;
+    try { await rpc('kh_parent_survey', { p_key: S.pkey, p_survey: sv.id, p_student: who.value, p_parent: parent.value, p_answers: ans }, false); dl.close(); toast('وصلت إجابتكم، شكرًا لمشاركتكم'); }
+    catch (e) { formErr(eb, e.message); send.disabled = false; }
+  } }, 'إرسال الإجابات');
+  const dl = dialog({ title: sv.title, wide: true, body, footer: [send] });
+}
+
+/* ═════════════════════════ الهيكل ═════════════════════════ */
+const isAdmin = () => S.user.role === 'counselor';
+const canRecord = () => S.user.role !== 'display';
+const term = () => S.terms.find(t => t.id === S.termId);
+const cls = id => S.classes.find(c => c.id === id);
+const itemsOf = kind => S.items.filter(i => i.kind === kind);
+const item = id => S.items.find(i => i.id === id);
+const bandOf = it => it.mode === 'manual' ? 'bandm' : it.points === 6 ? 'band6' : it.points === 4 ? 'band4' : 'band2';
+
+function range() {
+  const t = term(); if (!t) return { from: null, to: null };
+  let from = t.start, to = t.end; const td = S.today;
+  if (S.preset === 'today') from = to = td;
+  else if (S.preset === 'week') { const d = pd(td); d.setUTCDate(d.getUTCDate() - d.getUTCDay()); from = iso(d); to = td; }
+  else if (S.preset === 'month') { from = td.slice(0, 8) + '01'; to = td; }
+  else if (S.preset === 'custom') { from = S.from || t.start; to = S.to || t.end; }
+  if (from < t.start) from = t.start; if (to > t.end) to = t.end;
+  return { from, to };
+}
+const inRange = d => { const r = range(); return r.from && d >= r.from && d <= r.to; };
+const PRESETS = [['today', 'اليوم'], ['week', 'هذا الأسبوع'], ['month', 'هذا الشهر'], ['term', 'الفصل الدراسي'], ['custom', 'فترة محددة']];
+
+function enterApp() {
+  if (S.user.role === 'display') { S.view = 'display'; }
+  else if (S.view === 'admin' && !isAdmin()) S.view = 'record';
+  render();
+  clearInterval(S.poll);
+  S.poll = setInterval(() => {
+    if (document.hidden || !S.token || document.querySelector('dialog[open]')) return;
+    if (S.view === 'record' || S.view === 'display') loadSummary(true);
+  }, 30000);
+}
+async function logout() { try { await rpc('kh_logout'); } catch (e) {} localStorage.removeItem('kh_token'); S.token = null; clearInterval(S.poll); screenLogin(); }
+
+function render() {
+  S.refreshers.clear(); S.gridRefresh = null;
+  if (S.view === 'display') return renderDisplay();
+  const nav = [['record', 'الرصد', 'sheet'], ['reports', 'التقارير', 'chart'], ['display', 'شاشة العرض', 'screen']];
+  if (isAdmin()) nav.push(['admin', 'الإدارة', 'gear']);
+  const main = h('main');
+  mount(h('div', null,
+    h('header', { class: 'top' }, h('div', { class: 'top-in' },
+      h('div', { class: 'logo' }, lic('star', 44)),
+      h('div', null, h('h1', null, 'رصد القيم والسلوك المتميز'), h('div', { class: 'sub' }, SCHOOL)),
+      h('nav', { class: 'nav' }, nav.map(([v, l, ic]) => h('button', { class: S.view === v ? 'on' : '', onClick: () => { S.view = v; render(); } }, lic(ic, 26), l))),
+      h('div', { class: 'user' }, h('div', { class: 'who' }, h('b', null, S.user.name), h('span', null, ROLES[S.user.role])),
+        isAdmin() ? h('button', { class: 'btn ghost', title: 'تغيير كلمة مرور الموجهة الطلابية', onClick: dlgPassword }, svg(IC.key)) : null,
+        h('button', { class: 'btn ghost', title: 'تسجيل الخروج', onClick: logout }, svg(IC.out))))),
+    main));
+  if (S.view === 'record') renderRecord(main);
+  else if (S.view === 'reports') renderReports(main);
+  else if (S.view === 'admin') renderAdmin(main);
+}
+
+function dlgPassword() {
+  const eb = h('div'), o = h('input', { type: 'password', dir: 'ltr', autocomplete: 'current-password' }), n = h('input', { type: 'password', dir: 'ltr', autocomplete: 'new-password' });
+  const dl = dialog({ title: 'تغيير كلمة مرور الموجهة الطلابية', body: [eb, h('label', { class: 'field' }, h('span', null, 'كلمة المرور الحالية'), o), h('label', { class: 'field' }, h('span', null, 'كلمة المرور الجديدة (6 خانات على الأقل)'), n)],
+    footer: [h('button', { class: 'btn primary', onClick: async () => { try { await rpc('kh_change_password', { p_old: o.value, p_new: n.value }); dl.close(); toast('تم تغيير كلمة المرور'); } catch (e) { formErr(eb, e.message); } } }, 'حفظ')] });
+}
+
+/* ═════════════════════════ الرصد ═════════════════════════ */
+async function loadSummary(silent) {
+  const t = term(); if (!t || !S.classId) { S.sum = { rows: [], byId: {} }; return; }
+  const key = [S.classId, S.termId, S.preset, S.from, S.to].join('|');
+  try {
+    const r = range();
+    const d = await rpc('kh_summary', { p_term: S.termId, p_from: r.from, p_to: r.to, p_class: S.classId });
+    if (key !== [S.classId, S.termId, S.preset, S.from, S.to].join('|')) return;
+    if (silent && S.busy.size) return;
+    d.byId = Object.fromEntries(d.rows.map(x => [x.id, x]));
+    S.sum = d; S.cap = d.cap; setBudget(d.budget);
+    if (S.paint) S.paint();
+  } catch (e) { if (!silent && !e.session) oops(e); }
+}
+
+function periodBar(onChange) {
+  const box = h('div', { class: 'toolbar' });
+  const draw = () => {
+    const t = term(), r = range();
+    put(box, 
+      h('span', { class: 'lbl' }, 'الفترة'),
+      S.terms.length > 1 ? h('select', { style: { width: 'auto' }, value: String(S.termId), onChange: e => { S.termId = +e.target.value; draw(); onChange(); } },
+        S.terms.map(x => h('option', { value: x.id }, x.name))) : h('span', { class: 'tag ok' }, t ? t.name : '—'),
+      h('div', { class: 'seg' }, PRESETS.map(([k, l]) => h('button', { class: S.preset === k ? 'on' : '', onClick: () => { S.preset = k; if (k === 'custom') { S.from = S.from || r.from; S.to = S.to || r.to; } draw(); onChange(); } }, l))),
+      S.preset === 'custom' ? h('div', { class: 'row' },
+        h('input', { type: 'date', style: { width: 'auto' }, value: S.from || '', min: t && t.start, max: t && t.end, onChange: e => { S.from = e.target.value; onChange(); } }), 'إلى',
+        h('input', { type: 'date', style: { width: 'auto' }, value: S.to || '', min: t && t.start, max: t && t.end, onChange: e => { S.to = e.target.value; onChange(); } })) :
+        (r.from ? h('span', { class: 'muted small' }, r.from === r.to ? dLong(r.from) : `${dShort(r.from)} – ${dShort(r.to)}`) : null));
+  };
+  draw(); return box;
+}
+
+function classPicker(onChange) {
+  const box = h('div', { class: 'toolbar' });
+  const draw = () => {
+    const cur = cls(S.classId), grades = [...new Set(S.classes.map(c => c.grade))];
+    put(box, h('span', { class: 'lbl' }, 'الصف'),
+      h('div', { class: 'chips' }, grades.map(g => h('button', { class: 'chip' + (cur && cur.grade === g ? ' on' : ''), onClick: () => {
+        const same = S.classes.find(c => c.grade === g && cur && c.section === cur.section) || S.classes.find(c => c.grade === g);
+        S.classId = same.id; localStorage.setItem('kh_class', same.id); draw(); onChange(); } }, GRADES[g - 1]))),
+      h('span', { class: 'lbl', style: { marginInlineStart: '6px' } }, 'الفصل'),
+      h('div', { class: 'chips' }, S.classes.filter(c => cur && c.grade === cur.grade).map(c => h('button', { class: 'chip' + (c.id === S.classId ? ' on' : ''), onClick: () => {
+        S.classId = c.id; localStorage.setItem('kh_class', c.id); draw(); onChange(); } }, 'فصل ' + c.section, h('span', { class: 'n num' }, c.n + ' طالبة')))));
+  };
+  draw(); return box;
+}
+
+function searchBox(onPick) {
+  const inp = h('input', { type: 'search', placeholder: 'بحث باسم الطالبة…', autocomplete: 'off' });
+  const res = h('div', { class: 'results', hidden: true });
+  const run = () => {
+    const q = norm(inp.value); if (q.length < 2) { res.hidden = true; return; }
+    const words = q.split(' ');
+    const hits = S.students.filter(s => s.active && words.every(w => norm(s.name).includes(w))).slice(0, 25);
+    put(res, (hits.length ? hits.map(s => h('button', { type: 'button', onClick: () => { res.hidden = true; inp.value = ''; onPick(s); } },
+      h('span', null, s.name), h('span', { class: 'muted small' }, classShort(cls(s.class_id))))) : [h('div', { class: 'empty' }, 'لا توجد طالبة بهذا الاسم')]));
+    res.hidden = false;
+  };
+  inp.addEventListener('input', run); inp.addEventListener('focus', run);
+  document.addEventListener('click', e => { if (!box.contains(e.target)) res.hidden = true; });
+  const box = h('div', { class: 'search' }, svg(IC.search, 17), inp, res);
+  return box;
+}
+
+function setBudget(b) {
+  if (!b) return; S.budget = b;
+  const box = document.getElementById('budgetBox'); if (box) put(box, budgetNode());
+}
+function budgetNode() {
+  const b = S.budget; if (!b || !canRecord()) return null;
+  if (b.unlimited) return h('div', { class: 'budget' }, h('b', null, 'رصيد الموجهة الطلابية'), h('div', { class: 'small muted' }, `غير محدود — ${ptsWord(b.award)} لكل منحة`));
+  const left = Math.max(0, b.limit - b.used);
+  return h('div', { class: 'budget' + (left < b.award ? ' out' : '') },
+    h('div', null, 'رصيدك هذا الأسبوع: ', h('b', { class: 'big num' }, left), ` من ${b.limit} نقطة`),
+    h('div', { class: 'bar' }, h('i', { style: { width: (left / b.limit * 100) + '%' } })),
+    h('div', { class: 'tiny muted' }, left < b.award ? 'انتهى الرصيد — يتجدد يوم الأحد' : `يكفي ${Math.floor(left / b.award)} منحة · ${ptsWord(b.award)} لكل منحة · يتجدد الأحد`));
+}
+const isGrades = () => S.sec === 'grades';
+const viewKey = () => isGrades() ? 'grades' : S.cat;
+const viewItems = () => isGrades() ? itemsOf('practice') : S.cat === 'all' ? [] : S.items.filter(i => i.cat === S.cat);
+const maxTotal = () => Math.max(1, ...(S.sum ? S.sum.rows.map(r => r.total || 0) : [0]));
+function segBar(r, max, big) {
+  return h('div', { class: 'segbar' + (big ? ' thick' : '') }, CATS.filter(c => r.cats && r.cats[c.id]).map(c =>
+    h('i', { title: `${c.name}: ${r.cats[c.id]}`, style: { width: (r.cats[c.id] / Math.max(max, 1) * 100) + '%', background: c.c } })));
+}
+const legend = () => h('div', { class: 'legend' }, CATS.map(c => h('span', null, lic(c.ic, 22), c.name)));
+
+function renderRecord(main) {
+  if (!S.terms.length) { main.append(h('div', { class: 'card pad' }, 'لم يُعرَّف فصل دراسي بعد.')); return; }
+  if (!S.mode) S.mode = innerWidth < 760 ? 'list' : 'grid';
+  const content = h('div'), tabsBox = h('div', { class: 'tabs' }), catBox = h('div', { style: { marginBottom: '10px' } }), warn = h('div');
+  const reload = async () => { put(content, h('div', { class: 'loading' }, h('span', { class: 'spin' }), ' جارٍ تحميل الكشف…')); S.sum = null; await loadSummary(); };
+  const drawTabs = () => {
+    const b = S.budget || { award: 2, limit: 20 };
+    put(tabsBox,
+      h('button', { class: 'tab' + (!isGrades() ? ' on' : ''), onClick: () => { S.sec = 'points'; drawTabs(); S.paint(); } }, h('span', { class: 'ic' }, lic('star', 42)), h('span', null, h('b', null, 'النقاط'), h('span', null, `${ptsWord(b.award)} لكل منحة — رصيد المعلمة ${b.limit} نقطة في الأسبوع`))),
+      h('button', { class: 'tab gold' + (isGrades() ? ' on' : ''), onClick: () => { S.sec = 'grades'; drawTabs(); S.paint(); } }, h('span', { class: 'ic' }, lic('shield', 42)), h('span', null, h('b', null, 'درجات السلوك المتميز'), h('span', null, `الدرجات الرسمية — بحد أعلى ${S.cap} درجة في الفصل الدراسي`))));
+    put(catBox, isGrades() ? h('p', { class: 'note small', style: { margin: 0 } }, 'هذا القسم يُحسب تلقائيًا مما يُدخل في قسم النقاط (السلوك الإيجابي والأنشطة). الإدخال من هنا يمنح النقاط أيضًا، فلا حاجة لإدخال الواقعة مرتين.') :
+      h('div', { class: 'catbar' },
+        [{ id: 'all', name: 'الكل', c: '#0f9a82', t: '#fff' }, ...CATS].map(c => h('button', { class: 'catchip' + (S.cat === c.id ? ' on' : ''), title: c.hint || '', style: S.cat === c.id ? { background: c.c, color: c.t } : null,
+          onClick: () => { S.cat = c.id; drawTabs(); S.paint(); } }, lic(c.ic || 'spark', 30), c.name)),
+        h('div', { id: 'budgetBox', style: { marginInlineStart: 'auto' } }, budgetNode())));
+  };
+  S.paint = () => {
+    if (!S.sum) return;
+    const keep = $('.gridwrap', content); const sl = keep ? [keep.scrollLeft, keep.scrollTop] : null;
+    S.gridRefresh = null;
+    const c = catOf(S.cat);
+    put(content,
+      !isGrades() && c ? h('div', { class: 'row', style: { marginBottom: '8px' } }, h('span', { class: 'small muted grow' }, c.hint),
+        S.cat === 'discipline' && isAdmin() ? h('button', { class: 'btn primary', onClick: dlgBulkDiscipline }, svg(IC.check, 16), 'منح نقاط الانضباط للفصل (هذا الأسبوع)') : null) : null,
+      S.mode === 'grid' ? buildGrid() : buildList());
+    S.refreshers.forEach(f => { try { f(); } catch (e) {} });
+    const nw = $('.gridwrap', content); if (nw && sl) { nw.scrollLeft = sl[0]; nw.scrollTop = sl[1]; }
+    const t = S.terms.find(x => x.start <= S.today && S.today <= x.end);
+    put(warn, t ? '' : h('div', { class: 'note', style: { marginBottom: '10px' } }, 'تاريخ اليوم خارج الفصول الدراسية المعرّفة، لذلك لن يُقبل رصد جديد بتاريخ اليوم. ' + (isAdmin() ? 'عدّلي التواريخ من «الإدارة ← الإعدادات».' : 'راجعي الموجهة الطلابية.')));
+    if (S.hl) { const el = document.getElementById('row-' + S.hl); if (el) el.scrollIntoView({ block: 'center', behavior: 'smooth' }); }
+  };
+  main.append(
+    h('div', { class: 'card pad', style: { display: 'grid', gap: '12px' } },
+      h('div', { class: 'toolbar' }, classPicker(reload),
+        h('div', { class: 'row', style: { marginInlineStart: 'auto', flex: '1 1 300px', justifyContent: 'flex-end' } },
+          searchBox(async s => { S.hl = s.id; if (s.class_id !== S.classId) { S.classId = s.class_id; localStorage.setItem('kh_class', s.class_id); render(); await sleep(50); } else S.paint(); openStudent(s); setTimeout(() => { S.hl = null; }, 4000); }),
+          h('div', { class: 'seg' }, h('button', { class: S.mode === 'grid' ? 'on' : '', title: 'جدول', onClick: e => { S.mode = 'grid'; render(); } }, svg(IC.grid, 16)),
+            h('button', { class: S.mode === 'list' ? 'on' : '', title: 'قائمة (للجوال)', onClick: e => { S.mode = 'list'; render(); } }, svg(IC.list, 16))))),
+      periodBar(reload)),
+    tabsBox, catBox, warn, content);
+  drawTabs(); reload();
+}
+
+const rowOf = st => (S.sum && S.sum.byId[st.id]) || { counts: {}, cats: {}, total: 0, raw: 0, pts: 0 };
+const cnt = (st, it) => rowOf(st).counts[it.id] || 0;
+const classStudents = () => (S.sum ? S.sum.rows : []).map(r => ({ id: r.id, name: r.name, class_id: r.class_id }));
+
+function cellNode(st, it, big) {
+  const n = cnt(st, it), key = st.id + ':' + it.id, busy = S.busy.has(key);
+  const locked = !canRecord() || (it.counselor_only && !isAdmin());
+  const open = () => openCell(st, it);
+  if (it.once) {
+    if (n > 0) return h('button', { class: 'done', title: 'عرض التفاصيل', onClick: open }, svg(IC.check, 15), 'مرصود');
+    return h('span', { class: 'cell' }, h('button', { class: 'add' + (busy ? ' busy' : ''), disabled: locked, title: locked ? 'ترصده الموجهة الطلابية فقط في نهاية الفصل الدراسي' : 'رصد', onClick: open }, svg(locked ? IC.lock : IC.plus, 16)));
+  }
+  return h('span', { class: 'cell' },
+    h('button', { class: 'cnt num' + (n ? ' has' : ''), title: 'عرض تفاصيل مرات الرصد', onClick: open }, n),
+    canRecord() ? h('button', { class: 'add' + (busy ? ' busy' : ''), disabled: locked, 'aria-label': `منح ${it.short} للطالبة ${st.name}`, title: locked ? 'تمنحه الموجهة الطلابية فقط' : 'منح / رصد مرة جديدة',
+      onClick: () => it.mode === 'manual' ? openCell(st, it) : addRecord(st, it) }, svg(busy ? IC.check : locked ? IC.lock : IC.plus, 17)) : null);
+}
+function ptsNode(st) {
+  const r = rowOf(st);
+  return h('span', { class: 'pts' + (r.raw >= S.cap ? ' full' : '') }, h('b', { class: 'num' }, r.pts), h('span', { class: 'of' }, ' من ' + S.cap),
+    r.raw > S.cap ? h('span', { class: 'raw num' }, 'المرصود ' + r.raw) : null);
+}
+const totNode = st => { const r = rowOf(st); return h('div', { class: 'ptot' }, h('b', { class: 'num' }, r.total || 0), segBar(r, maxTotal())); };
+const catCell = (st, c) => { const v = rowOf(st).cats[c.id] || 0; return h('button', { class: 'catpts num', title: 'فتح قسم ' + c.name, style: { background: v ? c.s : 'transparent', color: v ? c.k : '#b7b3c2' },
+  onClick: () => { S.cat = c.id; render(); } }, v); };
+
+function buildGrid() {
+  const items = viewItems(), sts = classStudents(), isG = isGrades(), all = !isG && S.cat === 'all', c = catOf(S.cat);
+  if (!sts.length) return h('div', { class: 'card pad muted' }, 'لا توجد طالبات في هذا الفصل.');
+  const head = [], blank = () => h('th', { class: 'namecol', style: { background: '#f5f2f9' } }), blankT = () => h('th', { class: 'tot', style: { background: '#f5f2f9' } });
+  if (isG) {
+    const groups = []; items.forEach(it => { const g = groups[groups.length - 1]; if (g && g.grp === it.grp) g.n++; else groups.push({ grp: it.grp, n: 1, band: it.once ? 'band6' : bandOf(it) }); });
+    head.push(h('tr', { class: 'bands' }, blank(), groups.map(g => h('th', { colspan: g.n, class: g.band }, g.grp)), blankT()));
+  } else if (c) {
+    head.push(h('tr', { class: 'bands' }, blank(), h('th', { colspan: items.length, style: { background: c.c, color: c.t } }, `${c.name} — ${ptsWord((S.budget || {}).award || 2)} لكل منحة`), blankT()));
+  }
+  const title = `${classLabel(cls(S.classId))} — ${sts.length} طالبة`;
+  head.push(h('tr', { class: 'heads' + (isG || c ? ' under' : '') }, h('th', { class: 'namecol' }, title),
+    all ? CATS.map(x => h('th', { class: 'item', style: { borderBottom: '4px solid ' + x.c } }, lic(x.ic, 30), h('br'), x.name)) :
+      items.map((it, i) => h('th', { class: 'item' + (isG || items.length > 9 ? ' p' : ''), title: it.name }, S.cat === 'values' && !isG ? [h('span', { class: 'no num' }, i + 1), h('br')] : null, it.short)),
+    h('th', { class: 'tot' }, isG ? 'الدرجة' : 'نقاط الفترة')));
+  const buildRow = (st, i) => h('tr', { id: 'row-' + st.id, class: S.hl === st.id ? 'hl' : '' },
+    h('td', { class: 'namecol' }, h('button', { title: 'فتح بطاقة الطالبة', onClick: () => openStudent(st) }, h('span', { class: 'ix num' }, i + 1), h('span', { class: 'nm' }, st.name))),
+    all ? CATS.map(x => h('td', null, catCell(st, x))) : items.map(it => h('td', null, cellNode(st, it))),
+    h('td', { class: 'tot' }, isG ? ptsNode(st) : totNode(st)));
+  const tb = h('tbody', null, sts.map(buildRow));
+  S.gridRefresh = id => { const i = sts.findIndex(s => s.id === id), el = document.getElementById('row-' + id); if (i >= 0 && el) el.replaceWith(buildRow(sts[i], i)); };
+  return h('div', null, all ? h('div', { style: { marginBottom: '8px' } }, h('span', { class: 'small muted' }, 'ملخص نقاط كل طالبة حسب القسم في الفترة المحددة. اختاري قسمًا بلونه لمنح النقاط.')) : null,
+    h('div', { class: 'gridwrap' }, h('table', { class: 'grid' }, h('thead', null, head), tb)));
+}
+
+function buildList() {
+  const items = viewItems(), sts = classStudents(), isG = isGrades(), all = !isG && S.cat === 'all', c = catOf(S.cat), k = viewKey();
+  const it = all ? null : (items.find(x => x.id === S.listItem[k]) || items[0]); if (it) S.listItem[k] = it.id;
+  const buildRow = (st, i) => h('div', { class: 'srow' + (S.hl === st.id ? ' hl' : ''), id: 'row-' + st.id },
+    h('span', { class: 'muted tiny num', style: { minWidth: '1.4em' } }, i + 1),
+    h('button', { class: 'nm', onClick: () => openStudent(st) }, st.name,
+      isG ? h('div', { class: 'tiny muted' }, `الدرجة ${rowOf(st).pts} من ${S.cap}`) : h('div', { style: { marginTop: '4px', maxWidth: '220px' } }, segBar(rowOf(st), maxTotal()))),
+    all ? h('b', { class: 'num', style: { fontSize: '19px', color: 'var(--teal-d)', minWidth: '2em', textAlign: 'center' } }, rowOf(st).total || 0) : cellNode(st, it, true));
+  S.gridRefresh = id => { const i = sts.findIndex(s => s.id === id), el = document.getElementById('row-' + id); if (i >= 0 && el) el.replaceWith(buildRow(sts[i], i)); };
+  return h('div', null,
+    all ? null : h('div', { class: 'itempick' }, items.map((x, i) => h('button', { class: 'chip' + (x.id === it.id ? ' on' : ''), style: x.id === it.id && c ? { background: c.c, borderColor: c.c, color: c.t } : null, onClick: () => { S.listItem[k] = x.id; S.paint(); } },
+      isG ? h('span', { class: 'dot ' + (x.once ? 'band6' : bandOf(x)) }) : null, x.short))),
+    h('div', { class: 'card' },
+      all ? h('div', { class: 'itemhead' }, h('div', null, h('b', null, 'مجموع النقاط في الفترة'), h('div', { style: { marginTop: '6px' } }, legend()))) :
+      h('div', { class: 'itemhead', style: c ? { borderTop: '4px solid ' + c.c } : null }, h('div', null, h('b', null, it.short), h('div', { class: 'tiny muted' }, isG || it.name !== it.short ? it.name : classLabel(cls(S.classId)))),
+        isG ? h('span', { class: 'badge ' + (it.once ? 'band6' : bandOf(it)) }, it.grp) : h('span', { class: 'badge', style: { background: c.c, color: c.t } }, c.name)),
+      h('div', { class: 'slist' }, sts.length ? sts.map(buildRow) : h('div', { class: 'pad muted' }, 'لا توجد طالبات في هذا الفصل.'))));
+}
+
+// منح نقاط الانضباط الأسبوعية لفصل كامل دفعة واحدة (الموجهة الطلابية)
+function dlgBulkDiscipline() {
+  const it = S.items.find(i => i.cat === 'discipline'), sts = classStudents(), boxes = new Map();
+  const list = h('div', { style: { display: 'grid', gap: '2px', maxHeight: '50vh', overflow: 'auto' } }, sts.map(st => {
+    const cb = h('input', { type: 'checkbox', style: { width: '20px', height: '20px' } }); cb.checked = true; boxes.set(st.id, cb);
+    return h('label', { class: 'row', style: { padding: '6px 4px', borderBottom: '1px solid var(--line2)' } }, cb, st.name);
+  }));
+  const go = h('button', { class: 'btn primary', onClick: async () => {
+    go.disabled = true; let ok = 0, skip = 0;
+    for (const st of sts) { if (!boxes.get(st.id).checked) continue; const r = await addRecord(st, it, { quiet: true, silent: true, fast: true }); if (r && !r.duplicate) ok++; else skip++; }
+    dl.close(); toast(ok ? `مُنحت نقاط الانضباط لـ ${girlsWord(ok)}` + (skip ? ` — وسبق منح ${girlsWord(skip)} هذا الأسبوع` : '') : 'سبق منح نقاط الانضباط لهن هذا الأسبوع'); loadSummary(true);
+  } }, 'منح النقاط للمحدَّدات');
+  const dl = dialog({ title: 'نقاط الانضباط الأسبوعية', sub: `${classLabel(cls(S.classId))} — ألغي التحديد عن من غابت هذا الأسبوع`, body: list, footer: [go] });
+}
+
+const refreshRow = id => { if (S.gridRefresh) S.gridRefresh(id); S.refreshers.forEach(f => { try { f(id); } catch (e) {} }); };
+function applyResult(r, deltaCount) {
+  setBudget(r.budget);
+  const rec = r.record, row = S.sum && S.sum.byId[rec.student_id];
+  if (!row) return;
+  if (deltaCount && inRange(rec.date)) {
+    row.counts[rec.item_id] = Math.max(0, (row.counts[rec.item_id] || 0) + deltaCount);
+    const it = item(rec.item_id);
+    if (rec.award && it && it.cat) { row.cats[it.cat] = Math.max(0, (row.cats[it.cat] || 0) + deltaCount * rec.award); row.total = Math.max(0, (row.total || 0) + deltaCount * rec.award); }
+  }
+  const t = term(); if (t && rec.date >= t.start && rec.date <= t.end && r.raw != null) { row.raw = r.raw; row.pts = r.pts; }
+  refreshRow(rec.student_id);
+}
+
+// كل ضغطة = منحة جديدة بمعرّف فريد. الضغط المزدوج يُتجاهل أثناء القفل، وإعادة الإرسال لا تكرر الواقعة.
+async function addRecord(st, it, opts = {}) {
+  const key = st.id + ':' + it.id;
+  if (S.busy.has(key)) return null;
+  S.busy.add(key); refreshRow(st.id);
+  const id = uuid(), t0 = Date.now(); let out = null;
+  const who = st.name.split(' ').slice(0, 2).join(' ');
+  try {
+    const r = await rpcRetry('kh_record_add', { p_id: id, p_student: st.id, p_item: it.id, p_date: opts.date || null, p_note: opts.note || '', p_points: opts.points == null ? null : opts.points, p_award: opts.award !== false });
+    applyResult(r, r.duplicate ? 0 : 1); out = r;
+    const aw = r.record.award, b = r.budget;
+    const msg = (aw ? `مُنحت ${ptsWord(aw)}:` : 'سُجّل بدون نقاط:') + ` «${it.short}» — ${who}` + (aw && b && !b.unlimited ? ` · المتبقي من رصيدك ${Math.max(0, b.limit - b.used)}` : '');
+    if (!opts.quiet) toast(msg, { actions: [
+      { label: 'ملاحظة', fn: () => openCell(st, it, r.record.id) },
+      { label: 'تراجع', fn: async () => { try { const d = await rpc('kh_record_delete', { p_id: r.record.id }); applyResult(d, -1); toast('تم التراجع'); } catch (e) { oops(e); } } }] });
+  } catch (e) {
+    if (e.session || opts.silent) { /* صامت */ }
+    else if (e.hint === 'BUDGET' && it.kind === 'practice') toast(e.message + '. يمكن تسجيل الممارسة للدرجات الرسمية دون نقاط.', { bad: true, ms: 9000, actions: [{ label: 'تسجيل بدون نقاط', fn: () => addRecord(st, it, { ...opts, award: false }) }] });
+    else oops(e);
+    out = opts.wantError ? { error: e } : null;
+  }
+  await sleep(Math.max(0, (opts.fast ? 0 : 900) - (Date.now() - t0)));
+  S.busy.delete(key); refreshRow(st.id);
+  return out;
+}
+
+/* ── تفاصيل الخانة: كل مرة رصد بتاريخها ومعلمتها وملاحظتها ── */
+function ptsTag(it, r) {
+  const c = catOf(it.cat), out = [];
+  if (c) out.push(r.award ? h('span', { class: 'tag num', style: { background: c.s, color: c.k } }, `${ptsWord(r.award)} · ${c.name}`) : h('span', { class: 'tag' }, 'بدون نقاط'));
+  if (it.kind === 'practice') {
+    if (!r.counts) out.push(h('span', { class: 'tag off' }, 'الدرجة غير محتسبة'));
+    else if (it.mode === 'manual' && r.points === 0) out.push(h('span', { class: 'tag gold' }, 'الدرجة بانتظار تقدير الموجهة'));
+    else out.push(h('span', { class: 'tag ok num' }, 'الدرجة الرسمية: ' + r.points));
+  }
+  return out;
+}
+function recordForm(it, r, onSave, onCancel) {
+  const t = term();
+  const d = h('input', { type: 'date', value: r ? r.date : S.today, max: S.today });
+  const n = h('textarea', { placeholder: it.mode === 'manual' ? 'وصف السلوك المتميز (مطلوب)' : 'ملاحظة (اختياري)', maxlength: 500 }, r ? r.note : '');
+  const pts = it.mode === 'manual' && isAdmin() ? h('select', { value: String(r ? r.points : 0) }, Array.from({ length: it.max + 1 }, (_, i) => h('option', { value: i }, i === 0 ? 'لم تُقدَّر بعد (0)' : i + ''))) : null;
+  const cb = (r && it.kind === 'practice') ? h('input', { type: 'checkbox', style: { width: '20px', height: '20px' } }) : null; if (cb) cb.checked = r.counts;
+  const eb = h('div');
+  const save = h('button', { class: 'btn primary', onClick: async () => {
+    if (it.mode === 'manual' && n.value.trim().length < 3) return formErr(eb, 'اكتبي وصف السلوك المتميز في خانة الملاحظة');
+    save.disabled = true; formErr(eb);
+    try { await onSave({ date: d.value, note: n.value, points: pts ? +pts.value : null, counts: cb ? cb.checked : null }); } catch (e) { formErr(eb, e.message); save.disabled = false; }
+  } }, r ? 'حفظ التعديل' : 'إضافة واقعة جديدة');
+  return h('div', null, eb, h('div', { class: 'g2' },
+      h('label', { class: 'field' }, h('span', null, 'التاريخ'), d),
+      pts ? h('label', { class: 'field' }, h('span', null, `الدرجة المقدّرة (بحد أعلى ${it.max})`), pts) : null),
+    h('label', { class: 'field' }, h('span', null, it.mode === 'manual' ? 'وصف السلوك' : 'ملاحظة'), n),
+    cb ? h('label', { class: 'row', style: { marginBottom: '10px', fontWeight: 600 } }, cb, 'احتساب الدرجة الرسمية لهذه الواقعة ضمن درجات السلوك المتميز') : null,
+    it.mode === 'manual' && !isAdmin() ? h('p', { class: 'note small' }, 'تُسجَّل الواقعة الآن، وتقدّر الموجهة الطلابية درجتها لاحقًا بناءً على توصية لجنة التوجيه الطلابي.') : null,
+    h('div', { class: 'row' }, save, onCancel ? h('button', { class: 'btn', onClick: onCancel }, 'إلغاء') : null));
+}
+
+async function openCell(st, it, editId) {
+  const body = h('div', null, h('div', { class: 'loading' }, h('span', { class: 'spin' })));
+  const t = term();
+  const dl = dialog({ title: it.short, sub: `${st.name} — ${t ? t.name : ''}`, body, onClose: () => loadSummary(true) });
+  let editing = editId || null;
+  const load = async () => {
+    let recs;
+    try { recs = await rpc('kh_records', { p_term: S.termId, p_student: st.id, p_item: it.id }); } catch (e) { put(body, h('div', { class: 'err' }, e.message)); return; }
+    const mine = r => isAdmin() || r.by_id === S.user.id;
+    const locked = it.counselor_only && !isAdmin();
+    const canAdd = canRecord() && !locked && !(it.once && recs.length);
+    put(body, 
+      it.kind === 'practice' ? h('p', { class: 'small muted', style: { marginTop: 0 } }, it.name, ' ', h('span', { class: 'badge ' + (it.once ? 'band6' : bandOf(it)) }, it.grp)) : null,
+      h('div', { class: 'row', style: { marginBottom: '10px' } }, h('b', null, 'عدد المرات في الفصل الدراسي: '), h('span', { class: 'tag ok num', style: { fontSize: '15px' } }, recs.length)),
+      recs.length ? recs.map((r, i) => h('div', { class: 'occ' },
+        editing === r.id ? recordForm(it, r, async v => { const x = await rpc('kh_record_update', { p_id: r.id, p_date: v.date, p_note: v.note, p_points: v.points, p_counts: v.counts }); editing = null; applyResult(x, 0); toast('تم حفظ التعديل'); await load(); }, () => { editing = null; load(); }) : [
+          h('div', { class: 'occ-top' }, h('span', { class: 'occ-n num' }, recs.length - i),
+            h('div', { class: 'grow' }, h('b', null, dLong(r.date)), h('div', { class: 'tiny muted' }, dHijri(r.date))),
+            ptsTag(it, r),
+            mine(r) ? h('button', { class: 'btn sm', onClick: () => { editing = r.id; load(); } }, svg(IC.edit, 14), 'تعديل') : null,
+            mine(r) ? h('button', { class: 'btn sm danger', onClick: async () => {
+              if (!await confirmBox('حذف هذه الواقعة؟', `سيُحذف رصد «${it.short}» بتاريخ ${dLong(r.date)} للطالبة ${st.name}. يبقى الحذف موثقًا باسمك في سجل التعديلات.`, 'حذف')) return;
+              try { const x = await rpc('kh_record_delete', { p_id: r.id }); applyResult(x, -1); toast('تم حذف الواقعة'); load(); } catch (e) { oops(e); } } }, svg(IC.trash, 14), 'حذف') : null),
+          r.note ? h('div', { class: 'occ-note' }, r.note) : null,
+          h('div', { class: 'occ-meta' }, 'رصدتها: ', h('b', null, r.by || '—'), ' · ', tStamp(r.at),
+            r.upd_at ? [' · عُدّلت بواسطة ', h('b', null, r.upd_by), ' ', tStamp(r.upd_at), ' ', h('button', { class: 'btn sm ghost', onClick: () => openHistory(r.id) }, svg(IC.hist, 13), 'سجل التعديل')] : null)]))
+        : h('p', { class: 'muted' }, 'لم يُرصد هذا البند لهذه الطالبة في هذا الفصل الدراسي بعد.'),
+      canAdd ? h('div', { class: 'addbox' }, h('b', { style: { display: 'block', marginBottom: '8px' } }, it.once ? 'رصد البند (مرة واحدة في الفصل الدراسي)' : 'إضافة مرة جديدة بتاريخ أو ملاحظة'),
+        recordForm(it, null, async v => { const x = await addRecord(st, it, { date: v.date, note: v.note, points: v.points, quiet: true, wantError: true }); if (!x || x.error) { if (x && x.error && x.error.hint === 'BUDGET') dl.close(); throw new Error('تعذر الحفظ'); } toast('تمت الإضافة'); await load(); })) :
+        (locked ? h('p', { class: 'note small' }, 'هذا البند ترصده الموجهة الطلابية مرة واحدة في نهاية الفصل الدراسي.') : null));
+  };
+  load();
+}
+
+async function openHistory(recordId) {
+  const body = h('div', null, h('div', { class: 'loading' }, h('span', { class: 'spin' })));
+  dialog({ title: 'سجل تعديل الواقعة', body });
+  try {
+    const a = await rpc('kh_audit', { p_entity: 'record', p_id: recordId });
+    put(body, a.map(x => h('div', { class: 'occ' }, h('b', null, x.summary), h('div', { class: 'occ-meta' }, 'بواسطة ', h('b', null, x.by || '—'), ' · ', tStamp(x.at)),
+      x.action === 'update' && x.before ? h('div', { class: 'small', style: { marginTop: '6px' } }, diffText(x.before, x.after)) : null)));
+  } catch (e) { put(body, h('div', { class: 'err' }, e.message)); }
+}
+function diffText(b, a) {
+  const out = [];
+  if (b.date !== a.date) out.push(`التاريخ: ${b.date} ← ${a.date}`);
+  if ((b.note || '') !== (a.note || '')) out.push(`الملاحظة: «${b.note || 'بدون'}» ← «${a.note || 'بدون'}»`);
+  if (b.points !== a.points) out.push(`الدرجة: ${b.points} ← ${a.points}`);
+  if (b.counts !== a.counts) out.push(a.counts ? 'أصبحت محتسبة' : 'أصبحت غير محتسبة');
+  return out.join(' · ') || 'بدون تغيير في البيانات';
+}
+
+/* ── بطاقة الطالبة ── */
+function openStudent(st) {
+  const body = h('div');
+  const dl = dialog({ title: st.name, sub: classLabel(cls(st.class_id)), wide: true, body,
+    footer: [h('button', { class: 'btn', onClick: () => { dl.close(); S.view = 'reports'; S.rep = { scope: 'student', student: st.id, kind: 'points' }; render(); } }, svg(IC.chart, 16), 'السجل الكامل والطباعة')],
+    onClose: () => S.refreshers.delete(draw) });
+  function draw(id) {
+    if (id && id !== st.id) return;
+    const r = rowOf(st), pr = range();
+    const sec = c => h('div', null, h('div', { class: 'cathead', style: { borderColor: c.c, color: c.k } }, lic(c.ic, 26), c.name, h('span', null, r.cats[c.id] ? ptsWord(r.cats[c.id]) : 'لا نقاط بعد')),
+      S.items.filter(i => i.cat === c.id).map(it => h('div', { class: 'sheet-item' }, h('div', { class: 't' }, it.short, it.kind === 'practice' ? h('small', null, 'في الدرجات: ' + it.grp) : null), cellNode(st, it))));
+    const official = S.items.filter(i => !i.cat);
+    put(body,
+      h('div', { class: 'tiles' },
+        h('div', { class: 'tile' }, h('b', { class: 'num' }, r.total || 0), h('span', null, 'مجموع النقاط في الفترة'), h('div', { style: { marginTop: '8px' } }, segBar(r, r.total || 1, true))),
+        h('div', { class: 'tile gold' }, h('b', null, r.pts + ' من ' + S.cap), h('span', null, 'درجة السلوك المتميز في الفصل الدراسي' + (r.raw > S.cap ? ` (المرصود ${r.raw})` : '')),
+          h('div', { class: 'bar' }, h('i', { style: { width: Math.min(100, r.pts / S.cap * 100) + '%' } })))),
+      h('p', { class: 'tiny muted', style: { margin: '0' } }, 'الفترة: ', pr.from === pr.to ? dLong(pr.from) : `${dShort(pr.from)} – ${dShort(pr.to)}`, '. اضغطي العدد لعرض التفاصيل، و(+) للمنح.'),
+      h('div', { class: 'g2', style: { gap: '4px 24px', alignItems: 'start' } },
+        h('div', null, sec(CATS[0]), sec(CATS[1]), sec(CATS[2])),
+        h('div', null, sec(CATS[3]), sec(CATS[4]),
+          official.length ? h('div', null, h('div', { class: 'cathead', style: { borderColor: 'var(--gold)', color: 'var(--gold-d)' } }, 'درجات رسمية فقط (آخر الفصل الدراسي)'),
+            official.map(it => h('div', { class: 'sheet-item' }, h('div', { class: 't' }, it.short, h('small', null, it.grp)), cellNode(st, it)))) : null)));
+  }
+  S.refreshers.add(draw);
+  if (S.sum && S.sum.byId[st.id]) draw(); else { body.append(h('div', { class: 'loading' }, h('span', { class: 'spin' }))); const w = setInterval(() => { if (S.sum && S.sum.byId[st.id]) { clearInterval(w); draw(); } }, 150); setTimeout(() => clearInterval(w), 8000); }
+}
+
+/* ═════════════════════════ التقارير ═════════════════════════ */
+function renderReports(main) {
+  const R = S.rep = Object.assign({ scope: 'class', classId: S.classId, grade: (cls(S.classId) || {}).grade || 1, student: null, kind: 'points' }, S.rep || {});
+  const out = h('div'), ctl = h('div', { class: 'card pad noprint', style: { display: 'grid', gap: '12px', marginBottom: '14px' } });
+  let data = null;
+  const scopeLabel = () => R.scope === 'school' ? 'جميع الصفوف' : R.scope === 'grade' ? 'الصف ' + GRADES[R.grade - 1] : R.scope === 'class' ? classLabel(cls(R.classId)) : ((S.students.find(s => s.id === R.student) || {}).name || '');
+  const args = () => { const r = range(); return { p_term: S.termId, p_from: r.from, p_to: r.to, p_class: R.scope === 'class' ? R.classId : null, p_grade: R.scope === 'grade' ? R.grade : null, p_student: R.scope === 'student' ? R.student : null }; };
+  const run = async () => {
+    if (R.scope === 'student' && !R.student) { put(out, h('div', { class: 'card pad muted' }, 'ابحثي عن الطالبة بالاسم لعرض تقريرها.')); return; }
+    put(out, h('div', { class: 'loading' }, h('span', { class: 'spin' }), ' جارٍ إعداد التقرير…'));
+    try {
+      const a = args(); const [sum, recs] = await Promise.all([rpc('kh_summary', a), R.scope === 'student' ? rpc('kh_records', a) : Promise.resolve(null)]);
+      data = { sum, recs, a }; draw();
+    } catch (e) { put(out, h('div', { class: 'err' }, e.message)); }
+  };
+  const KIND = { points: 'النقاط', value: 'القيم', practice: 'درجات السلوك المتميز' };
+  const kindOf = it => it.kind === 'value' ? 'قيمة' : it.kind === 'practice' ? 'سلوك متميز' : 'نقاط';
+  const head = () => { const r = range(), t = term(); return h('div', { class: 'print-head' }, h('h2', null, `${SCHOOL} — تقرير ${R.scope === 'student' ? 'الطالبة' : KIND[R.kind]}`),
+    h('p', null, `${scopeLabel()} · ${t.name} · من ${r.from} إلى ${r.to} · طُبع بتاريخ ${S.today} بواسطة ${S.user.name}`)); };
+  const draw = () => {
+    const { sum, recs } = data, rows = sum.rows, r = range();
+    const btns = h('div', { class: 'row noprint', style: { marginBottom: '10px' } },
+      h('div', { class: 'grow' }, h('b', null, scopeLabel()), h('span', { class: 'muted small' }, ` · ${rows.length} طالبة · ${dShort(r.from)} – ${dShort(r.to)}`)),
+      h('button', { class: 'btn', onClick: () => window.print() }, svg(IC.print, 16), 'طباعة'),
+      h('button', { class: 'btn gold', onClick: exportXlsx }, svg(IC.xls, 16), 'تصدير Excel'));
+    if (R.scope === 'student') {
+      const s = rows[0]; if (!s) { put(out, h('div', { class: 'card pad muted' }, 'الطالبة غير موجودة.')); return; }
+      const used = S.items.filter(i => s.counts[i.id]);
+      put(out, h('div', { class: 'card pad' }, head(), btns,
+        h('div', { class: 'tiles' },
+          h('div', { class: 'tile' }, h('b', { class: 'num' }, s.total || 0), h('span', null, 'مجموع النقاط في الفترة'), h('div', { style: { marginTop: '8px' } }, segBar(s, s.total || 1, true))),
+          h('div', { class: 'tile gold' }, h('b', null, s.pts + ' من ' + sum.cap), h('span', null, 'درجة السلوك المتميز في الفصل الدراسي' + (s.raw > sum.cap ? ` (المرصود ${s.raw})` : '')))),
+        h('div', { class: 'g2', style: { marginBottom: '14px', alignItems: 'start' } },
+          h('table', { class: 't' }, h('thead', null, h('tr', null, h('th', null, 'القسم'), h('th', { class: 'c' }, 'النقاط'))),
+            h('tbody', null, CATS.map(c => h('tr', null, h('td', null, h('span', { class: 'dot', style: { background: c.c } }), c.name), h('td', { class: 'c num' }, s.cats[c.id] || 0))))),
+          h('table', { class: 't' }, h('thead', null, h('tr', null, h('th', null, 'البند'), h('th', { class: 'c' }, 'عدد المرات'))),
+            h('tbody', null, used.length ? used.map(i => h('tr', null, h('td', null, i.short), h('td', { class: 'c num' }, s.counts[i.id]))) : h('tr', null, h('td', { colspan: 2, class: 'muted' }, 'لا يوجد.'))))),
+        h('h3', { style: { fontSize: '15px', margin: '0 0 6px' } }, `تفاصيل الوقائع (${recs.length})`),
+        h('div', { class: 'scroll' }, h('table', { class: 't' }, h('thead', null, h('tr', null, ['التاريخ', 'القسم', 'البند', 'النقاط', 'الدرجة الرسمية', 'منحتها', 'ملاحظة'].map(x => h('th', null, x)))),
+          h('tbody', null, recs.length ? recs.map(x => { const it = item(x.item_id), c = catOf(it.cat); return h('tr', null, h('td', { class: 'num', style: { whiteSpace: 'nowrap' } }, x.date),
+            h('td', null, c ? [h('span', { class: 'dot', style: { background: c.c } }), c.name] : 'درجات فقط'), h('td', null, it.short), h('td', { class: 'num' }, x.award || '—'),
+            h('td', { class: 'num' }, it.kind !== 'practice' ? '—' : (x.counts ? x.points : 'غير محتسبة')), h('td', null, x.by), h('td', null, x.note)); }) : h('tr', null, h('td', { colspan: 7, class: 'muted' }, 'لا توجد وقائع في هذه الفترة.')))))));
+      return;
+    }
+    const isP = R.kind === 'practice', isPts = R.kind === 'points';
+    const cols = isPts ? CATS.map(c => ({ label: c.name, color: c.c, get: s => s.cats[c.id] || 0 })) : itemsOf(R.kind).map(i => ({ label: i.short, title: i.name, get: s => s.counts[i.id] || 0 }));
+    let last = null, n = 0; const body = [];
+    rows.forEach(s => {
+      if (R.scope !== 'class' && s.class_id !== last) { last = s.class_id; n = 0; body.push(h('tr', { class: 'grp' }, h('td', { colspan: cols.length + 3 + (isP ? 1 : 0) }, classLabel(cls(s.class_id))))); }
+      const tot = cols.reduce((a, c) => a + c.get(s), 0);
+      body.push(h('tr', null, h('td', { class: 'num muted' }, ++n), h('td', { style: { fontWeight: 600, whiteSpace: 'nowrap' } }, s.name),
+        cols.map(c => h('td', { class: 'c num' }, c.get(s) || '')), h('td', { class: 'c num', style: { fontWeight: 700 } }, tot),
+        isP ? h('td', { class: 'c num', style: { fontWeight: 700 } }, s.pts + (s.raw > sum.cap ? ` (${s.raw})` : '')) : null));
+    });
+    put(out, h('div', { class: 'card pad' }, head(), btns,
+      h('div', { class: 'scroll' }, h('table', { class: 't' }, h('thead', null, h('tr', null, h('th', null, '#'), h('th', null, 'اسم الطالبة'),
+        cols.map(c => isPts ? h('th', { class: 'c', style: { borderBottom: '4px solid ' + c.color } }, c.label) : h('th', { class: 'v', title: c.title }, c.label)),
+        h('th', { class: 'c' }, isPts ? 'مجموع النقاط' : 'مجموع المرات'), isP ? h('th', { class: 'c' }, `الدرجة من ${sum.cap}`) : null)),
+        h('tbody', null, body.length ? body : h('tr', null, h('td', { colspan: 30, class: 'muted' }, 'لا توجد طالبات.'))))),
+      isP ? h('p', { class: 'tiny muted', style: { marginBottom: 0 } }, `الدرجة تُحتسب للفصل الدراسي كاملًا بحد أعلى ${sum.cap}. الرقم بين القوسين هو مجموع الدرجات المرصودة قبل تطبيق الحد.`) : null));
+  };
+  async function exportXlsx() {
+    try {
+      toast('جارٍ تجهيز ملف Excel…');
+      const a = data.a, recs = data.recs || await rpc('kh_records', a), rows = data.sum.rows, cap = data.sum.cap, r = range(), t = term();
+      const base = s => { const c = cls(s.class_id); return [s.name, GRADES[c.grade - 1], c.section]; };
+      const V = itemsOf('value'), P = itemsOf('practice');
+      const sheets = [
+        { name: 'النقاط', widths: [5, 34, 10, 7, ...CATS.map(() => 16), 14], rows: [['م', 'اسم الطالبة', 'الصف', 'الفصل', ...CATS.map(c => c.name), 'مجموع النقاط'],
+          ...rows.map((s, i) => [i + 1, ...base(s), ...CATS.map(c => s.cats[c.id] || 0), s.total || 0])] },
+        { name: 'القيم', widths: [5, 34, 10, 7, ...V.map(() => 12), 10], rows: [['م', 'اسم الطالبة', 'الصف', 'الفصل', ...V.map(i => i.short), 'المجموع'],
+          ...rows.map((s, i) => [i + 1, ...base(s), ...V.map(x => s.counts[x.id] || 0), V.reduce((q, x) => q + (s.counts[x.id] || 0), 0)])] },
+        { name: 'درجات السلوك المتميز', widths: [5, 34, 10, 7, ...P.map(() => 16), 14, 18, 18], rows: [['م', 'اسم الطالبة', 'الصف', 'الفصل', ...P.map(i => i.short), 'مجموع المرات', 'مجموع الدرجات المرصودة', `الدرجة المحتسبة (من ${cap})`],
+          ...rows.map((s, i) => [i + 1, ...base(s), ...P.map(x => s.counts[x.id] || 0), P.reduce((q, x) => q + (s.counts[x.id] || 0), 0), s.raw, s.pts])] },
+        { name: 'تفاصيل الوقائع', widths: [12, 34, 10, 7, 16, 36, 8, 14, 12, 40, 22, 20, 22, 20], rows: [['التاريخ', 'اسم الطالبة', 'الصف', 'الفصل', 'القسم', 'البند', 'النقاط', 'الدرجة الرسمية', 'الدرجة محتسبة', 'الملاحظة', 'منحتها', 'وقت الإدخال', 'آخر تعديل بواسطة', 'وقت التعديل'],
+          ...recs.map(x => { const it = item(x.item_id), c = cls(x.now_class), k = catOf(it.cat), pr = it.kind === 'practice';
+            return [x.date, x.student, GRADES[c.grade - 1], c.section, k ? k.name : 'درجات فقط', it.short, x.award || 0, pr ? x.points : '', pr ? (x.counts ? 'نعم' : 'لا') : '', x.note, x.by, tStamp(x.at), x.upd_by || '', tStamp(x.upd_at)]; })] },
+        { name: 'معلومات', widths: [30, 60], rows: [['البند', 'القيمة'], ['المدرسة', SCHOOL], ['النطاق', scopeLabel()], ['الفصل الدراسي', t.name], ['من تاريخ', r.from], ['إلى تاريخ', r.to], ['الحد الأعلى لدرجات السلوك المتميز', cap], ['تاريخ التصدير', S.today], ['صدّرته', S.user.name],
+          ['ملاحظة', 'النقاط وأعداد المرات للفترة المحددة. درجة السلوك المتميز تُحتسب للفصل الدراسي كاملًا.']] }];
+      download(xlsx(sheets), `نقاط ${scopeLabel().replace(/[\\/:*?"<>|]/g, '-')} ${r.from} إلى ${r.to}.xlsx`);
+    } catch (e) { oops(e); }
+  }
+  const drawCtl = () => {
+    const scopes = [['class', 'فصل'], ['grade', 'صف كامل'], ['school', 'المدرسة كلها'], ['student', 'طالبة']];
+    put(ctl, h('div', { class: 'toolbar' }, h('span', { class: 'lbl' }, 'التقرير عن'),
+        h('div', { class: 'seg' }, scopes.map(([k, l]) => h('button', { class: R.scope === k ? 'on' : '', onClick: () => { R.scope = k; drawCtl(); run(); } }, l))),
+        R.scope === 'class' ? h('select', { style: { width: 'auto' }, value: String(R.classId), onChange: e => { R.classId = +e.target.value; run(); } }, S.classes.map(c => h('option', { value: c.id }, classLabel(c)))) : null,
+        R.scope === 'grade' ? h('select', { style: { width: 'auto' }, value: String(R.grade), onChange: e => { R.grade = +e.target.value; run(); } }, [...new Set(S.classes.map(c => c.grade))].map(g => h('option', { value: g }, 'الصف ' + GRADES[g - 1]))) : null,
+        R.scope === 'student' ? [searchBox(s => { R.student = s.id; drawCtl(); run(); }), R.student ? h('span', { class: 'tag ok' }, scopeLabel()) : null] : null,
+        R.scope !== 'student' ? h('div', { class: 'seg', style: { marginInlineStart: 'auto' } }, [['points', 'النقاط'], ['value', 'القيم'], ['practice', 'درجات السلوك المتميز']].map(([k, l]) => h('button', { class: R.kind === k ? 'on' : '', onClick: () => { R.kind = k; drawCtl(); if (data) draw(); } }, l))) : null),
+      periodBar(run));
+  };
+  main.append(ctl, out); drawCtl(); run();
+}
+
+/* ═════════════════════════ شاشة العرض للطالبات ═════════════════════════ */
+function renderDisplay() {
+  const D = S.disp = Object.assign({ sort: 'name', rotate: false, preset: 'week' }, S.disp || {});
+  S.preset = D.preset; S.paint = paint;
+  const wrap = h('div', { class: 'disp' }); mount(wrap);
+  clearInterval(S.rot);
+  if (D.rotate) S.rot = setInterval(() => { if (S.view !== 'display') return clearInterval(S.rot); step(1); }, 20000);
+  function step(n) { const i = S.classes.findIndex(c => c.id === S.classId); S.classId = S.classes[(i + n + S.classes.length) % S.classes.length].id; S.sum = null; paint(); loadSummary(); }
+  function paint() {
+    const c = cls(S.classId), r = range();
+    let rows = S.sum ? S.sum.rows.map(s => ({ ...s, v: s.total || 0 })) : [];
+    const top = [...new Set(rows.map(x => x.v).filter(x => x > 0))].sort((a, b) => b - a).slice(0, 3), mx = Math.max(1, ...rows.map(x => x.v));
+    if (D.sort === 'top') rows.sort((a, b) => b.v - a.v);
+    put(wrap,
+      h('div', { class: 'disp-h' }, h('div', { class: 'logo' }, lic('star', 66)),
+        h('div', null, h('h1', null, 'لوحة نقاط التميّز'), h('p', null, `${SCHOOL} · ${classLabel(c)}`)),
+        h('div', { class: 'disp-tools' },
+          h('button', { class: 'btn ghost', title: 'الفصل السابق', onClick: () => step(-1) }, svg(IC.next)),
+          h('select', { style: { width: 'auto' }, value: String(S.classId), onChange: e => { S.classId = +e.target.value; S.sum = null; paint(); loadSummary(); } }, S.classes.map(x => h('option', { value: x.id }, classLabel(x)))),
+          h('button', { class: 'btn ghost', title: 'الفصل التالي', onClick: () => step(1) }, svg(IC.prev)),
+          h('div', { class: 'seg' }, [['week', 'هذا الأسبوع'], ['month', 'هذا الشهر'], ['term', 'الفصل الدراسي']].map(([k, l]) => h('button', { class: D.preset === k ? 'on' : '', onClick: () => { D.preset = S.preset = k; S.sum = null; paint(); loadSummary(); } }, l))),
+          h('div', { class: 'seg' }, h('button', { class: D.sort === 'name' ? 'on' : '', onClick: () => { D.sort = 'name'; paint(); } }, 'بالاسم'), h('button', { class: D.sort === 'top' ? 'on' : '', onClick: () => { D.sort = 'top'; paint(); } }, 'الأكثر نقاطًا')),
+          h('button', { class: 'btn ghost' + (D.rotate ? ' on' : ''), title: 'تنقّل تلقائي بين الفصول كل 20 ثانية', onClick: () => { D.rotate = !D.rotate; renderDisplay(); } }, D.rotate ? 'إيقاف التنقل' : 'تنقّل تلقائي'),
+          h('button', { class: 'btn ghost', title: 'ملء الشاشة', onClick: () => { const el = document.documentElement; document.fullscreenElement ? document.exitFullscreen() : (el.requestFullscreen && el.requestFullscreen()); } }, svg(IC.full)),
+          S.user.role === 'display' ? h('button', { class: 'btn ghost', title: 'خروج', onClick: logout }, svg(IC.out)) :
+            h('button', { class: 'btn ghost', onClick: () => { clearInterval(S.rot); S.view = 'record'; S.preset = 'term'; S.sum = null; render(); } }, svg(IC.x), 'إغلاق العرض'))),
+      legend(),
+      !S.sum ? h('div', { class: 'loading' }, 'جارٍ التحميل…') :
+      h('div', { class: 'disp-grid' }, rows.map(s => h('div', { class: 'dcard' + (top.includes(s.v) ? ' star' : '') },
+        h('div', { class: 'big num' }, lic('star', 30), s.v),
+        h('h3', null, s.name),
+        segBar(s, mx, true),
+        h('div', { class: 'dvals' }, CATS.filter(k => s.cats[k.id]).map(k => h('span', { class: 'dval', style: { background: k.s, color: k.k } }, k.name, h('b', { class: 'num' }, s.cats[k.id]))))))),
+      h('div', { class: 'disp-foot' }, h('span', null, `مجموع النقاط (${r.from === r.to ? dLong(r.from) : dShort(r.from) + ' – ' + dShort(r.to)}) · كل لون قسم من أقسام التميّز`), h('span', null, dLong(S.today) + ' · ' + dHijri(S.today))));
+  }
+  paint(); loadSummary();
+}
+
+/* ═════════════════════════ الإدارة (الموجهة الطلابية) ═════════════════════════ */
+function renderAdmin(main) {
+  const A = S.adm = Object.assign({ tab: 'students', classId: 0, q: '', arch: false }, S.adm || {});
+  const body = h('div');
+  const tabs = [['students', 'الطالبات'], ['users', 'المعلمات'], ['surveys', 'استبانات أولياء الأمور'], ['settings', 'الفصول الدراسية والإعدادات'], ['audit', 'سجل التعديلات']];
+  const bar = h('div', { class: 'subtabs' }); const drawBar = () => put(bar, tabs.map(([k, l]) => h('button', { class: A.tab === k ? 'on' : '', onClick: () => { A.tab = k; drawBar(); go(); } }, l)));
+  const go = () => ({ students: admStudents, users: admUsers, surveys: admSurveys, settings: admSettings, audit: admAudit })[A.tab](body, A);
+  main.append(h('div', { class: 'card pad' }, bar, body)); drawBar(); go();
+}
+const reinit = async () => { await loadInit(); };
+
+function admStudents(body, A) {
+  const list = h('div', { class: 'scroll' });
+  const draw = () => {
+    const q = norm(A.q);
+    const rows = S.students.filter(s => (A.arch ? !s.active : s.active) && (!A.classId || s.class_id === A.classId) && (!q || norm(s.name).includes(q)));
+    put(list, h('table', { class: 't' }, h('thead', null, h('tr', null, h('th', null, '#'), h('th', null, 'اسم الطالبة'), h('th', null, 'الصف والفصل'), h('th', null, ''))),
+      h('tbody', null, rows.length ? rows.map((s, i) => h('tr', null, h('td', { class: 'num muted' }, i + 1), h('td', { style: { fontWeight: 600 } }, s.name), h('td', null, classLabel(cls(s.class_id))),
+        h('td', { style: { textAlign: 'end', whiteSpace: 'nowrap' } }, h('button', { class: 'btn sm', onClick: () => dlgStudent(s, draw) }, svg(IC.edit, 14), A.arch ? 'استرجاع / تعديل' : 'تعديل / نقل')))) : h('tr', null, h('td', { colspan: 4, class: 'muted' }, 'لا توجد نتائج.')))));
+    cnt2.textContent = rows.length + ' طالبة';
+  };
+  const cnt2 = h('span', { class: 'muted small num' });
+  put(body, h('div', { class: 'toolbar', style: { marginBottom: '12px' } },
+    h('select', { style: { width: 'auto' }, value: String(A.classId), onChange: e => { A.classId = +e.target.value; draw(); } }, h('option', { value: 0 }, 'كل الفصول'), S.classes.map(c => h('option', { value: c.id }, classLabel(c)))),
+    h('input', { type: 'search', placeholder: 'بحث بالاسم…', style: { width: 'auto', flex: '1 1 180px', maxWidth: '300px' }, value: A.q, onInput: e => { A.q = e.target.value; draw(); } }),
+    h('label', { class: 'row small' }, h('input', { type: 'checkbox', checked: A.arch || null, onChange: e => { A.arch = e.target.checked; draw(); } }), 'المحذوفات'), cnt2,
+    h('div', { class: 'row', style: { marginInlineStart: 'auto' } },
+      h('button', { class: 'btn', onClick: () => dlgClass(() => admStudents(body, A)) }, svg(IC.plus, 15), 'فصل جديد'),
+      h('button', { class: 'btn primary', onClick: () => dlgStudent(null, draw, A.classId) }, svg(IC.plus, 15), 'إضافة طالبات'))), list);
+  draw();
+}
+function dlgStudent(s, done, classId) {
+  const eb = h('div');
+  const name = s ? h('input', { type: 'text', value: s.name }) : h('textarea', { placeholder: 'اسم واحد في كل سطر', style: { minHeight: '130px' } });
+  const c = h('select', { value: String(s ? s.class_id : (classId || S.classId)) }, S.classes.map(x => h('option', { value: x.id }, classLabel(x))));
+  const save = async active => {
+    try {
+      if (s) await rpc('kh_student_save', { p_id: s.id, p_name: name.value, p_class: +c.value, p_active: active });
+      else { const names = name.value.split('\n').map(x => x.trim()).filter(Boolean); if (!names.length) return formErr(eb, 'اكتبي اسمًا واحدًا على الأقل');
+        for (const n of names) await rpc('kh_student_save', { p_id: null, p_name: n, p_class: +c.value }); }
+      await reinit(); dl.close(); done(); toast('تم الحفظ');
+    } catch (e) { formErr(eb, e.message); }
+  };
+  const dl = dialog({ title: s ? 'تعديل بيانات الطالبة' : 'إضافة طالبات', sub: s ? 'عند تغيير الفصل تُنقل الطالبة مع بقاء سجلها كاملًا.' : null,
+    body: [eb, h('label', { class: 'field' }, h('span', null, s ? 'اسم الطالبة' : 'أسماء الطالبات'), name), h('label', { class: 'field' }, h('span', null, 'الصف والفصل'), c)],
+    footer: [h('button', { class: 'btn primary', onClick: () => save(s ? (s.active ? true : true) : true) }, s && !s.active ? 'حفظ واسترجاع' : 'حفظ'),
+      s && s.active ? h('button', { class: 'btn danger', style: { marginInlineStart: 'auto' }, onClick: async () => { if (await confirmBox('حذف الطالبة من الكشوف؟', `ستُخفى ${s.name} من كشوف الرصد والتقارير، ويبقى سجلها محفوظًا ويمكن استرجاعها من «المحذوفات».`, 'حذف')) save(false); } }, svg(IC.trash, 15), 'حذف') : null] });
+}
+function dlgClass(done) {
+  const eb = h('div'), g = h('select', null, GRADES.map((x, i) => h('option', { value: i + 1 }, 'الصف ' + x))), s = h('input', { type: 'number', min: 1, max: 20, value: 3 });
+  const dl = dialog({ title: 'إضافة فصل', body: [eb, h('div', { class: 'g2' }, h('label', { class: 'field' }, h('span', null, 'الصف'), g), h('label', { class: 'field' }, h('span', null, 'رقم الفصل'), s))],
+    footer: [h('button', { class: 'btn primary', onClick: async () => { try { await rpc('kh_class_add', { p_grade: +g.value, p_section: +s.value }); await reinit(); dl.close(); done(); toast('تمت إضافة الفصل'); } catch (e) { formErr(eb, e.message); } } }, 'إضافة')] });
+}
+
+async function admUsers(body) {
+  put(body, h('div', { class: 'loading' }, h('span', { class: 'spin' })));
+  let us; try { us = await rpc('kh_users'); } catch (e) { return put(body, h('div', { class: 'err' }, e.message)); }
+  const again = () => admUsers(body);
+  put(body, h('div', { class: 'toolbar', style: { marginBottom: '12px' } }, h('span', { class: 'muted small grow' }, 'أضيفي كل معلمة باسمها وآخر أربعة أرقام من هويتها، فتدخل بهذه الأرقام وحدها ويُسجَّل ما تمنحه باسمها. الأرقام تُحفظ مشفّرة ولا تُعرض بعد الحفظ. إيقاف المعلمة يمنع دخولها ويُبقي ما منحته.'),
+      h('button', { class: 'btn primary', onClick: () => dlgUser(null, again) }, svg(IC.plus, 15), 'إضافة معلمة')),
+    h('div', { class: 'scroll' }, h('table', { class: 't' }, h('thead', null, h('tr', null, ['الاسم', 'الصفة', 'رقم الدخول', 'الحالة', 'عدد ما منحته', ''].map(x => h('th', null, x)))),
+      h('tbody', null, us.map(u => h('tr', null, h('td', { style: { fontWeight: 600 } }, u.name), h('td', null, h('span', { class: 'tag' + (u.role === 'counselor' ? ' gold' : '') }, ROLES[u.role])),
+        h('td', null, u.role !== 'teacher' ? h('span', { class: 'muted small' }, 'كلمة مرور') : h('span', { class: 'tag ' + (u.has_pin ? 'ok' : 'off') }, u.has_pin ? 'معيّن' : 'غير معيّن — لا تستطيع الدخول')),
+        h('td', null, h('span', { class: 'tag ' + (u.active ? 'ok' : 'off') }, u.active ? 'فعّال' : 'موقوف')), h('td', { class: 'num' }, u.records),
+        h('td', { style: { textAlign: 'end' } }, u.role === 'display' ? null : h('button', { class: 'btn sm', onClick: () => dlgUser(u, again) }, svg(IC.edit, 14), 'تعديل'))))))));
+}
+function dlgUser(u, done) {
+  const T = !u || u.role === 'teacher';
+  const eb = h('div'), n = h('input', { type: 'text', value: u ? u.name : '', placeholder: 'مثال: أ. نورة الغامدي' }),
+    pin = h('input', { type: 'text', dir: 'ltr', inputmode: 'numeric', maxlength: 6, autocomplete: 'off', placeholder: u && u.has_pin ? 'اتركيها فارغة للإبقاء على الأرقام الحالية' : '4 أرقام', style: { letterSpacing: '.2em' } }),
+    a = h('input', { type: 'checkbox', style: { width: '20px', height: '20px' } }); a.checked = u ? u.active : true;
+  const dl = dialog({ title: u ? 'تعديل بيانات المعلمة' : 'إضافة معلمة', body: [eb, h('label', { class: 'field' }, h('span', null, 'الاسم كما يظهر في السجلات'), n),
+      T ? h('label', { class: 'field' }, h('span', null, 'آخر أربعة أرقام من الهوية (رقم الدخول)'), pin) : null,
+      u && T ? h('label', { class: 'row', style: { fontWeight: 600 } }, a, 'الحساب فعّال (إلغاء التفعيل يمنع الدخول)') : null],
+    footer: [h('button', { class: 'btn primary', onClick: async () => { try { await rpc('kh_user_save', { p_id: u ? u.id : null, p_name: n.value, p_pin: T ? (pin.value || null) : null, p_active: a.checked }); if (u && u.id === S.user.id) S.user.name = n.value.trim(); dl.close(); done(); toast('تم الحفظ'); } catch (e) { formErr(eb, e.message); } } }, 'حفظ')] });
+}
+const SURVEY_TEMPLATE = { title: 'استبانة رضا أولياء الأمور عن خدمات المدرسة', intro: 'رأيكم يهمنا لتطوير خدماتنا. نشكر لكم وقتكم ومشاركتكم.', questions: [
+  { type: 'rating', text: 'تواصل المدرسة مع الأسرة' }, { type: 'rating', text: 'تعامل المعلمات مع الطالبات' }, { type: 'rating', text: 'البيئة المدرسية والنظافة' },
+  { type: 'rating', text: 'الأنشطة والبرامج المدرسية' }, { type: 'rating', text: 'خدمات التوجيه الطلابي' }, { type: 'rating', text: 'برنامج نقاط التميّز وأثره في تحفيز ابنتكم' },
+  { type: 'choice', text: 'هل تتابعون نقاط ابنتكم عبر الموقع؟', options: ['دائمًا', 'أحيانًا', 'لا'] }, { type: 'text', text: 'ملاحظاتكم ومقترحاتكم لتطوير خدمات المدرسة' }] };
+const ST = { draft: ['مسودة', ''], open: ['منشورة للأهالي', 'ok'], closed: ['مغلقة', 'off'] };
+async function admSurveys(body) {
+  put(body, h('div', { class: 'loading' }, h('span', { class: 'spin' })));
+  let d; try { d = await rpc('kh_surveys'); } catch (e) { return put(body, h('div', { class: 'err' }, e.message)); }
+  const again = () => admSurveys(body);
+  const setSt = async (v, st) => { try { await rpc('kh_survey_status', { p_id: v.id, p_status: st }); toast(st === 'open' ? 'نُشرت الاستبانة لأولياء الأمور' : 'تم التحديث'); again(); } catch (e) { oops(e); } };
+  put(body,
+    h('div', { class: 'toolbar', style: { marginBottom: '12px' } }, h('span', { class: 'muted small grow' }, 'الاستبانة المنشورة تظهر لأولياء الأمور في صفحة الفصل. يكتب ولي الأمر اسمه ويختار اسم ابنته ثم يجيب، مرة واحدة عن كل طالبة.'),
+      h('button', { class: 'btn', onClick: () => dlgSurvey({ ...SURVEY_TEMPLATE }, again) }, 'نموذج مقترح'),
+      h('button', { class: 'btn primary', onClick: () => dlgSurvey(null, again) }, svg(IC.plus, 15), 'استبانة جديدة')),
+    d.list.length ? h('div', { class: 'scroll' }, h('table', { class: 't' }, h('thead', null, h('tr', null, ['الاستبانة', 'الحالة', 'المشاركة', ''].map(x => h('th', null, x)))),
+      h('tbody', null, d.list.map(v => h('tr', null, h('td', null, h('b', null, v.title), h('div', { class: 'tiny muted' }, `${v.questions.length} أسئلة`)),
+        h('td', null, h('span', { class: 'tag ' + ST[v.status][1] }, ST[v.status][0])), h('td', null, `${v.responses} من ${d.families}`),
+        h('td', { style: { textAlign: 'end', whiteSpace: 'nowrap' } }, h('div', { class: 'row', style: { justifyContent: 'flex-end' } },
+          v.status !== 'open' ? h('button', { class: 'btn sm primary', onClick: () => setSt(v, 'open') }, v.status === 'closed' ? 'إعادة النشر' : 'نشر') : h('button', { class: 'btn sm', onClick: () => setSt(v, 'closed') }, 'إغلاق'),
+          h('button', { class: 'btn sm gold', onClick: () => dlgResults(v.id) }, svg(IC.chart, 14), 'النتائج'),
+          h('button', { class: 'btn sm', onClick: () => dlgSurvey(v, again) }, svg(IC.edit, 14), 'تعديل'),
+          h('button', { class: 'btn sm danger', onClick: async () => { if (await confirmBox('حذف الاستبانة؟', `ستُحذف «${v.title}» مع جميع إجاباتها (${v.responses}) نهائيًا.`, 'حذف')) { try { await rpc('kh_survey_delete', { p_id: v.id }); again(); } catch (e) { oops(e); } } } }, svg(IC.trash, 14))))))))) :
+      h('p', { class: 'muted' }, 'لا توجد استبانات بعد. ابدئي من «نموذج مقترح» وعدّلي أسئلته، أو أنشئي استبانة جديدة.'));
+}
+function dlgSurvey(v, done) {
+  const eb = h('div'), locked = v && v.id && v.responses > 0;
+  const title = h('input', { type: 'text', value: v ? v.title : '' }), intro = h('textarea', { maxlength: 1000, placeholder: 'مقدمة قصيرة تظهر لولي الأمر (اختياري)' }, v ? v.intro : '');
+  let qs = (v ? v.questions : [{ type: 'rating', text: '' }]).map(q => ({ id: q.id || '', type: q.type, text: q.text, options: (q.options || []).join('\n') }));
+  const list = h('div');
+  const draw = () => put(list, qs.map((q, i) => h('div', { class: 'qblock' },
+    h('div', { class: 'row', style: { marginBottom: '8px' } }, h('b', { class: 'num' }, (i + 1) + '.'),
+      h('select', { style: { width: 'auto' }, disabled: locked, value: q.type, onChange: e => { q.type = e.target.value; draw(); } }, h('option', { value: 'rating' }, 'تقييم (ممتاز … ضعيف)'), h('option', { value: 'choice' }, 'اختيار من خيارات'), h('option', { value: 'text' }, 'إجابة نصية')),
+      locked ? null : h('div', { class: 'row', style: { marginInlineStart: 'auto' } },
+        i > 0 ? h('button', { class: 'btn sm ghost', title: 'تحريك لأعلى', onClick: () => { [qs[i - 1], qs[i]] = [qs[i], qs[i - 1]]; draw(); } }, '↑') : null,
+        h('button', { class: 'btn sm danger', title: 'حذف السؤال', onClick: () => { qs.splice(i, 1); draw(); } }, svg(IC.trash, 14)))),
+    h('input', { type: 'text', value: q.text, disabled: locked, placeholder: 'نص السؤال', maxlength: 300, onInput: e => { q.text = e.target.value; } }),
+    q.type === 'choice' ? h('textarea', { style: { marginTop: '8px' }, disabled: locked, placeholder: 'الخيارات — خيار في كل سطر', onInput: e => { q.options = e.target.value; } }, q.options) : null)),
+    locked ? h('p', { class: 'note small' }, 'وصلت إجابات لهذه الاستبانة، فلا تُعدَّل أسئلتها. يمكن تعديل العنوان والمقدمة فقط.') :
+      h('button', { class: 'btn', onClick: () => { qs.push({ id: '', type: 'rating', text: '', options: '' }); draw(); } }, svg(IC.plus, 15), 'إضافة سؤال'));
+  draw();
+  const dl = dialog({ title: v && v.id ? 'تعديل الاستبانة' : 'استبانة جديدة', sub: 'تُحفظ مسودة، ولا تظهر لأولياء الأمور إلا بعد الضغط على «نشر».', wide: true,
+    body: [eb, h('label', { class: 'field' }, h('span', null, 'عنوان الاستبانة'), title), h('label', { class: 'field' }, h('span', null, 'المقدمة'), intro), h('div', { class: 'section-title', style: { fontSize: '15px' } }, 'الأسئلة'), list],
+    footer: [h('button', { class: 'btn primary', onClick: async () => { try {
+      await rpc('kh_survey_save', { p_id: v && v.id ? v.id : null, p_title: title.value, p_intro: intro.value, p_questions: qs.map(q => ({ id: q.id, type: q.type, text: q.text, options: q.type === 'choice' ? q.options.split('\n').map(x => x.trim()).filter(Boolean) : [] })) });
+      dl.close(); done(); toast('تم حفظ الاستبانة'); } catch (e) { formErr(eb, e.message); } } }, 'حفظ')] });
+}
+async function dlgResults(id) {
+  const body = h('div', null, h('div', { class: 'loading' }, h('span', { class: 'spin' })));
+  const foot = h('div', { class: 'row' });
+  dialog({ title: 'نتائج الاستبانة', wide: true, body, footer: [foot] });
+  let r; try { r = await rpc('kh_survey_results', { p_id: id }); } catch (e) { return put(body, h('div', { class: 'err' }, e.message)); }
+  const n = r.answers.length, rl = Object.fromEntries(RATE);
+  const bars = pairs => pairs.map(([label, c]) => h('div', { class: 'rbar' }, h('span', null, label), h('div', { class: 'bar' }, h('i', { style: { width: (n ? c / n * 100 : 0) + '%' } })), h('span', { class: 'num muted' }, `${c} (${n ? Math.round(c / n * 100) : 0}%)`)));
+  const cell = (q, a) => { const x = a.answers[q.id]; return x === undefined ? '' : q.type === 'rating' ? rl[x] : x; };
+  put(body,
+    h('div', { class: 'tiles' }, h('div', { class: 'tile' }, h('b', null, `${n} من ${r.families}`), h('span', null, 'أسر شاركت')),
+      h('div', { class: 'tile gold' }, h('b', { class: 'num' }, (r.families ? Math.round(n / r.families * 100) : 0) + '%'), h('span', null, 'نسبة المشاركة')),
+      h('div', { class: 'tile' }, h('b', null, ST[r.status][0]), h('span', null, r.title))),
+    !n ? h('p', { class: 'muted' }, 'لم تصل إجابات بعد.') : r.questions.map((q, i) => { const vals = r.answers.map(a => a.answers[q.id]).filter(x => x !== undefined);
+      return h('div', { class: 'qblock' }, h('b', null, `${i + 1}. ${q.text}`),
+        q.type === 'rating' ? [h('div', { class: 'small muted', style: { marginBottom: '6px' } }, 'المتوسط: ', h('b', { class: 'num', style: { color: 'var(--teal-d)', fontSize: '16px' } }, vals.length ? (vals.reduce((a, b) => a + b, 0) / vals.length).toFixed(2) : '—'), ' من 5'), bars(RATE.map(([k, l]) => [l, vals.filter(x => x === k).length]))] :
+        q.type === 'choice' ? bars(q.options.map(o => [o, vals.filter(x => x === o).length])) :
+        vals.length ? r.answers.filter(a => a.answers[q.id]).map(a => h('div', { class: 'occ-note', style: { marginTop: '6px' } }, a.answers[q.id], h('div', { class: 'tiny muted' }, (a.parent ? a.parent + ' — ' : '') + (a.student || '—')))) : h('span', { class: 'muted small' }, 'لا إجابات نصية.')); }),
+    n ? [h('div', { class: 'section-title', style: { fontSize: '15px', marginTop: '14px' } }, 'إجابات كل أسرة'),
+      h('div', { class: 'scroll', style: { maxHeight: '320px' } }, h('table', { class: 't' }, h('thead', null, h('tr', null, h('th', null, 'الطالبة'), h('th', null, 'الفصل'), h('th', null, 'ولي الأمر'), r.questions.map((q, i) => h('th', { title: q.text }, 'س' + (i + 1))), h('th', null, ''))),
+        h('tbody', null, r.answers.map(a => h('tr', null, h('td', { style: { fontWeight: 600, whiteSpace: 'nowrap' } }, a.student || '—'), h('td', { style: { whiteSpace: 'nowrap' } }, classShort(cls(a.class_id))), h('td', { style: { whiteSpace: 'nowrap' } }, a.parent || '—'), r.questions.map(q => h('td', null, cell(q, a))),
+          h('td', null, h('button', { class: 'btn sm danger', title: 'حذف هذه الإجابة', onClick: async () => { if (!await confirmBox('حذف الإجابة؟', `ستُحذف إجابة ${a.parent || 'ولي الأمر'} عن الطالبة ${a.student || ''}، ويمكن للأسرة المشاركة من جديد.`, 'حذف')) return; try { await rpc('kh_survey_response_delete', { p_id: a.id }); document.querySelectorAll('dialog').forEach(d => d.close()); dlgResults(id); } catch (e) { oops(e); } } }, svg(IC.trash, 14))))))))] : null,
+    h('details', { style: { marginTop: '12px' } }, h('summary', { style: { cursor: 'pointer', fontWeight: 600 } }, `لم يشاركوا بعد (${r.missing.length})`),
+      h('div', { class: 'small', style: { columns: '2 240px', marginTop: '8px' } }, r.missing.map(m => h('div', null, m.student, ' ', h('span', { class: 'muted tiny' }, classShort(cls(m.class_id))))))));
+  put(foot, h('button', { class: 'btn gold', onClick: () => {
+    const gs = x => { const c = cls(x.class_id); return c ? [GRADES[c.grade - 1], c.section] : ['', '']; };
+    download(xlsx([
+      { name: 'الإجابات', widths: [34, 10, 7, 26, 12, ...r.questions.map(() => 26)], rows: [['اسم الطالبة', 'الصف', 'الفصل', 'اسم ولي الأمر', 'تاريخ الإجابة', ...r.questions.map(q => q.text)], ...r.answers.map(a => [a.student || '', ...gs(a), a.parent || '', a.day, ...r.questions.map(q => cell(q, a))])] },
+      { name: 'الملخص', widths: [50, 16, 12], rows: [['السؤال', 'الإجابة', 'العدد'], ...r.questions.flatMap(q => { const vals = r.answers.map(a => a.answers[q.id]).filter(x => x !== undefined);
+          return q.type === 'rating' ? [...RATE.map(([k, l]) => [q.text, l, vals.filter(x => x === k).length]), [q.text, 'المتوسط من 5', vals.length ? +(vals.reduce((a, b) => a + b, 0) / vals.length).toFixed(2) : '']] : q.type === 'choice' ? q.options.map(o => [q.text, o, vals.filter(x => x === o).length]) : [[q.text, 'إجابات نصية', vals.length]]; })] },
+      { name: 'لم يشاركوا', widths: [34, 10, 7], rows: [['اسم الطالبة', 'الصف', 'الفصل'], ...r.missing.map(m => [m.student, ...gs(m)])] }]),
+      `استبانة ${r.title.replace(/[\\/:*?"<>|]/g, '-').slice(0, 60)}.xlsx`);
+  } }, svg(IC.xls, 16), 'تصدير Excel'));
+}
+
+function dlgSetPassword(kind, done) {
+  const eb = h('div'), n = h('input', { type: 'text', dir: 'ltr', autocomplete: 'off', autocapitalize: 'none', spellcheck: 'false', placeholder: '6 خانات على الأقل وفيها حروف' });
+  const save = async v => { try { await rpc('kh_password_set', { p_kind: kind, p_new: v }); S.pw[kind] = !!v; dl.close(); done(); toast(v ? 'تم حفظ كلمة المرور' : 'تم إلغاء كلمة مرور شاشة العرض'); } catch (e) { formErr(eb, e.message); } };
+  const dl = dialog({ title: 'كلمة مرور شاشة العرض', sub: 'تفتح لوحة العرض للطالبات فقط، دون أي صلاحية منح أو تفاصيل.',
+    body: [eb, h('label', { class: 'field' }, h('span', null, 'الكلمة الجديدة'), n)],
+    footer: [h('button', { class: 'btn primary', onClick: () => save(n.value) }, 'حفظ'),
+      S.pw.display ? h('button', { class: 'btn danger', style: { marginInlineStart: 'auto' }, onClick: () => save('') }, 'إلغاء كلمة شاشة العرض') : null] });
+}
+
+function admSettings(body) {
+  const again = () => admSettings(body);
+  const link = h('input', { type: 'text', dir: 'ltr', readonly: true, value: shareLink(), style: { fontSize: '12.5px' } });
+  const linksBox = h('div', { style: { marginBottom: '22px' } }, h('div', { class: 'loading' }, h('span', { class: 'spin' })));
+  const copyText = async t => { try { await navigator.clipboard.writeText(t); toast('تم نسخ الرابط'); } catch (e) { toast('تعذر النسخ التلقائي، انسخي الرابط يدويًا من الخانة', { bad: true }); } };
+  const loadLinks = async () => { try { const ls = await rpc('kh_class_links');
+    put(linksBox, h('div', { class: 'scroll', style: { maxHeight: '420px' } }, h('table', { class: 't' }, h('tbody', null, ls.map(c => { const url = parentLink(c.key);
+      return h('tr', null, h('td', { style: { fontWeight: 600, whiteSpace: 'nowrap' } }, classLabel(c)), h('td', { style: { width: '55%' } }, h('input', { type: 'text', dir: 'ltr', readonly: true, value: url, style: { fontSize: '12px', minHeight: '36px' }, onFocus: e => e.target.select() })),
+        h('td', { style: { textAlign: 'end', whiteSpace: 'nowrap' } }, h('div', { class: 'row', style: { justifyContent: 'flex-end' } }, h('button', { class: 'btn sm gold', onClick: () => copyText(url) }, 'نسخ'),
+          h('button', { class: 'btn sm', title: 'يلغي الرابط الحالي ويولّد رابطًا جديدًا', onClick: async () => { if (!await confirmBox('توليد رابط جديد؟', `سيتوقف الرابط الحالي لأولياء أمور ${classLabel(c)} فورًا، وتحتاجين لإرسال الرابط الجديد لهم.`, 'توليد رابط جديد')) return; try { await rpc('kh_class_link_reset', { p_class: c.id }); toast('تم توليد رابط جديد'); loadLinks(); } catch (e) { oops(e); } } }, 'رابط جديد')))); })))));
+  } catch (e) { put(linksBox, h('div', { class: 'err' }, e.message)); } };
+  loadLinks();
+  const copy = inp => async () => { try { await navigator.clipboard.writeText(inp.value); } catch (e) { inp.select(); document.execCommand('copy'); } toast('تم نسخ الرابط'); };
+  put(body, 
+    h('div', { class: 'section-title' }, 'رابط الموقع للمعلمات'),
+    h('p', { class: 'small muted', style: { marginTop: 0 } }, 'أرسلي هذا الرابط للمعلمات. الرابط يفتح صفحة الدخول فقط؛ لا تظهر أي بيانات إلا بعد إدخال المعلمة أرقامها.'),
+    h('div', { class: 'row', style: { marginBottom: '22px' } }, h('div', { class: 'grow' }, link), h('button', { class: 'btn gold', onClick: copy(link) }, 'نسخ الرابط')),
+    h('div', { class: 'section-title' }, 'روابط أولياء الأمور (رابط لكل فصل)'),
+    h('p', { class: 'small muted', style: { marginTop: 0 } }, 'أرسلي رابط كل فصل لأولياء أمور طالباته فقط. الرابط يفتح مباشرة بلا كلمة مرور، ويعرض نقاط طالبات ذلك الفصل للقراءة فقط مع الاستبانات المنشورة. من يصله الرابط يرى أسماء طالبات الفصل ونقاطهن، فإن وصل لغير أهله ولّدي رابطًا جديدًا.'),
+    linksBox,
+    h('div', { class: 'section-title' }, 'كلمات المرور'),
+    h('table', { class: 't', style: { marginBottom: '22px' } }, h('tbody', null,
+      h('tr', null, h('td', { style: { fontWeight: 600 } }, 'دخول المعلمات'), h('td', { colspan: 2, class: 'small muted' }, 'بآخر أربعة أرقام من هوية كل معلمة — تُدار من تبويب «المعلمات»')),
+      h('tr', null, h('td', { style: { fontWeight: 600 } }, 'كلمة مرور شاشة العرض للطالبات (اختيارية، قراءة فقط)'), h('td', null, h('span', { class: 'tag ' + (S.pw.display ? 'ok' : '') }, S.pw.display ? 'معيّنة' : 'غير معيّنة')),
+        h('td', { style: { textAlign: 'end' } }, h('button', { class: 'btn sm', onClick: () => dlgSetPassword('display', again) }, svg(IC.key, 14), S.pw.display ? 'تغيير' : 'تعيين'))),
+      h('tr', null, h('td', { style: { fontWeight: 600 } }, 'كلمة مرور الموجهة الطلابية (خاصة بك)'), h('td', null, h('span', { class: 'tag ok' }, 'معيّنة')),
+        h('td', { style: { textAlign: 'end' } }, h('button', { class: 'btn sm', onClick: dlgPassword }, svg(IC.key, 14), 'تغيير'))))),
+    h('div', { class: 'section-title' }, 'الفصول الدراسية', h('button', { class: 'btn sm', style: { marginInlineStart: 'auto' }, onClick: () => dlgTerm(null, again) }, svg(IC.plus, 14), 'فصل دراسي جديد')),
+    h('table', { class: 't', style: { marginBottom: '22px' } }, h('thead', null, h('tr', null, ['الاسم', 'البداية', 'النهاية', ''].map(x => h('th', null, x)))),
+      h('tbody', null, S.terms.map(t => h('tr', null, h('td', { style: { fontWeight: 600 } }, t.name, t.start <= S.today && S.today <= t.end ? h('span', { class: 'tag ok', style: { marginInlineStart: '8px' } }, 'الحالي') : null),
+        h('td', null, dLong(t.start), h('div', { class: 'tiny muted' }, dHijri(t.start))), h('td', null, dLong(t.end), h('div', { class: 'tiny muted' }, dHijri(t.end))),
+        h('td', { style: { textAlign: 'end' } }, h('button', { class: 'btn sm', onClick: () => dlgTerm(t, again) }, svg(IC.edit, 14), 'تعديل')))))),
+    h('div', { class: 'section-title' }, 'ضوابط النقاط والدرجات'),
+    h('table', { class: 't' }, h('tbody', null, [['budget', 'رصيد المعلمة من النقاط في الأسبوع', (S.budget || {}).limit || 20], ['award', 'نقاط كل منحة', (S.budget || {}).award || 2], ['cap', 'الحد الأعلى لدرجات السلوك المتميز الرسمية في الفصل الدراسي', S.cap]].map(([k, l, v]) => {
+      const inp = h('input', { type: 'number', min: 1, max: 200, value: v, style: { width: '110px' } });
+      return h('tr', null, h('td', { style: { fontWeight: 600 } }, l), h('td', null, inp),
+        h('td', { style: { textAlign: 'end' } }, h('button', { class: 'btn sm', onClick: async () => { try { await rpc('kh_setting_set', { p_key: k, p_value: +inp.value }); await reinit(); toast('تم الحفظ'); } catch (e) { oops(e); } } }, 'حفظ')));
+    }))),
+    h('ul', { class: 'small muted', style: { paddingInlineStart: '20px' } },
+      h('li', null, 'كل منحة نقطتان من رصيد المعلمة الأسبوعي (يبدأ الأحد ولا يُرحَّل). حذف المنحة يعيد نقاطها للرصيد.'),
+      h('li', null, 'قسم «الانضباط» تمنحه الموجهة الطلابية فقط ومرة واحدة لكل طالبة في الأسبوع، وليس من رصيد المعلمات. رصيد الموجهة غير محدود.'),
+      h('li', null, 'الإدخال مرة واحدة: منح «السلوك الإيجابي» أو «الأنشطة» يضيف النقاط، ويُحتسب تلقائيًا في درجات السلوك المتميز بدرجته الرسمية حتى الحد الأعلى.'),
+      h('li', null, 'إذا انتهى رصيد المعلمة يمكنها تسجيل ممارسة السلوك المتميز «بدون نقاط» حتى لا تضيع درجتها الرسمية.'),
+      h('li', null, 'بند «الانضباط وعدم الغياب» الرسمي (6 درجات) يُرصد مرة واحدة آخر الفصل الدراسي من حساب الموجهة، ويظهر في قسم الدرجات فقط.'),
+      h('li', null, 'بند «سلوك متميز غير ما ذُكر»: تسجله المعلمة بوصفه، وتقدّر الموجهة الطلابية درجته الرسمية (حتى 6).')));
+}
+function dlgTerm(t, done) {
+  const eb = h('div'), n = h('input', { type: 'text', value: t ? t.name : '' }), s = h('input', { type: 'date', value: t ? t.start : '' }), e2 = h('input', { type: 'date', value: t ? t.end : '' });
+  const dl = dialog({ title: t ? 'تعديل الفصل الدراسي' : 'فصل دراسي جديد', sub: 'درجات السلوك المتميز تبدأ من صفر مع كل فصل دراسي جديد، ويبقى سجل الفصول السابقة محفوظًا.',
+    body: [eb, h('label', { class: 'field' }, h('span', null, 'الاسم'), n), h('div', { class: 'g2' }, h('label', { class: 'field' }, h('span', null, 'تاريخ البداية'), s), h('label', { class: 'field' }, h('span', null, 'تاريخ النهاية'), e2))],
+    footer: [h('button', { class: 'btn primary', onClick: async () => { try { await rpc('kh_term_save', { p_id: t ? t.id : null, p_name: n.value, p_start: s.value || null, p_end: e2.value || null }); await reinit(); dl.close(); done(); toast('تم الحفظ'); } catch (e) { formErr(eb, e.message); } } }, 'حفظ')] });
+}
+
+async function admAudit(body) {
+  const list = h('div'); let last = null, all = [];
+  const ACT = { create: ['إضافة', 'ok'], update: ['تعديل', 'gold'], delete: ['حذف', 'off'], move: ['نقل', 'gold'], restore: ['استرجاع', 'ok'] };
+  const more = h('button', { class: 'btn', style: { marginTop: '10px' }, onClick: () => load() }, 'عرض الأقدم');
+  const load = async () => {
+    try { const a = await rpc('kh_audit', { p_limit: 150, p_before: last }); all = all.concat(a); if (a.length) last = a[a.length - 1].id; more.hidden = a.length < 150; draw(); }
+    catch (e) { put(list, h('div', { class: 'err' }, e.message)); }
+  };
+  const restored = new Set();
+  const draw = () => put(list, h('div', { class: 'scroll' }, h('table', { class: 't' }, h('thead', null, h('tr', null, ['الوقت', 'الإجراء', 'التفاصيل', 'بواسطة', ''].map(x => h('th', null, x)))),
+    h('tbody', null, all.map(x => h('tr', null, h('td', { class: 'small', style: { whiteSpace: 'nowrap' } }, tStamp(x.at)), h('td', null, h('span', { class: 'tag ' + (ACT[x.action] || ['', ''])[1] }, (ACT[x.action] || [x.action])[0])),
+      h('td', null, x.summary, x.entity === 'record' && x.action === 'update' && x.before ? h('div', { class: 'tiny muted' }, diffText(x.before, x.after)) : null), h('td', { style: { fontWeight: 600, whiteSpace: 'nowrap' } }, x.by || '—'),
+      h('td', null, x.entity === 'record' && x.action === 'delete' && !restored.has(x.entity_id) ? h('button', { class: 'btn sm', onClick: async () => { try { await rpc('kh_record_restore', { p_id: x.entity_id }); restored.add(x.entity_id); toast('تم استرجاع الواقعة'); all = []; last = null; load(); } catch (e) { oops(e); } } }, svg(IC.undo, 14), 'استرجاع') : null)))))));
+  put(body, h('p', { class: 'small muted', style: { marginTop: 0 } }, 'كل إضافة أو تعديل أو حذف يُسجَّل هنا باسم من قام به ووقته، ولا يمكن تعديل هذا السجل.'), h('div', { class: 'loading' }, h('span', { class: 'spin' })));
+  await load(); put(body, body.firstChild, list, more);
+}
+
+/* ═════════════════════════ تصدير Excel (ملف xlsx حقيقي) ═════════════════════════ */
+function xlsx(sheets) {
+  const esc = s => String(s).replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g, '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  const col = n => { let s = ''; n++; while (n > 0) { const m = (n - 1) % 26; s = String.fromCharCode(65 + m) + s; n = (n - m - 1) / 26; } return s; };
+  const sheetXml = sh => '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><sheetViews><sheetView rightToLeft="1" workbookViewId="0"><pane ySplit="1" topLeftCell="A2" activePane="bottomLeft" state="frozen"/></sheetView></sheetViews>' +
+    '<cols>' + sh.rows[0].map((_, i) => `<col min="${i + 1}" max="${i + 1}" width="${(sh.widths && sh.widths[i]) || 14}" customWidth="1"/>`).join('') + '</cols><sheetData>' +
+    sh.rows.map((r, ri) => `<row r="${ri + 1}">` + r.map((v, ci) => {
+      const ref = col(ci) + (ri + 1), st = ri === 0 ? ' s="1"' : '';
+      if (v === null || v === undefined || v === '') return ri === 0 ? `<c r="${ref}"${st}/>` : '';
+      if (typeof v === 'number' && isFinite(v)) return `<c r="${ref}"${st}><v>${v}</v></c>`;
+      return `<c r="${ref}" t="inlineStr"${st}><is><t xml:space="preserve">${esc(v)}</t></is></c>`;
+    }).join('') + '</row>').join('') + '</sheetData></worksheet>';
+  const files = [
+    ['[Content_Types].xml', '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/><Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/>' +
+      sheets.map((_, i) => `<Override PartName="/xl/worksheets/sheet${i + 1}.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>`).join('') + '</Types>'],
+    ['_rels/.rels', '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/></Relationships>'],
+    ['xl/workbook.xml', '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><sheets>' +
+      sheets.map((s, i) => `<sheet name="${esc(s.name.slice(0, 31))}" sheetId="${i + 1}" r:id="rId${i + 1}"/>`).join('') + '</sheets></workbook>'],
+    ['xl/_rels/workbook.xml.rels', '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">' +
+      sheets.map((_, i) => `<Relationship Id="rId${i + 1}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet${i + 1}.xml"/>`).join('') +
+      `<Relationship Id="rId${sheets.length + 1}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/></Relationships>`],
+    ['xl/styles.xml', '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><fonts count="2"><font><sz val="11"/><name val="Arial"/></font><font><b/><sz val="11"/><color rgb="FFFFFFFF"/><name val="Arial"/></font></fonts><fills count="3"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="gray125"/></fill><fill><patternFill patternType="solid"><fgColor rgb="FF0F9A82"/><bgColor indexed="64"/></patternFill></fill></fills><borders count="1"><border><left/><right/><top/><bottom/><diagonal/></border></borders><cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs><cellXfs count="2"><xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0"/><xf numFmtId="0" fontId="1" fillId="2" borderId="0" xfId="0" applyFont="1" applyFill="1" applyAlignment="1"><alignment horizontal="center" vertical="center" wrapText="1"/></xf></cellXfs><cellStyles count="1"><cellStyle name="Normal" xfId="0" builtinId="0"/></cellStyles></styleSheet>'],
+    ...sheets.map((s, i) => ['xl/worksheets/sheet' + (i + 1) + '.xml', sheetXml(s)])];
+  return zip(files);
+}
+function zip(files) {
+  const enc = new TextEncoder(), T = new Uint32Array(256);
+  for (let n = 0; n < 256; n++) { let c = n; for (let k = 0; k < 8; k++) c = c & 1 ? 0xEDB88320 ^ (c >>> 1) : c >>> 1; T[n] = c >>> 0; }
+  const crc = b => { let c = 0xFFFFFFFF; for (let i = 0; i < b.length; i++) c = T[(c ^ b[i]) & 255] ^ (c >>> 8); return (c ^ 0xFFFFFFFF) >>> 0; };
+  const parts = [], cd = []; let off = 0;
+  const hdr = (sig, n, c, len, nameLen, extra) => { const b = new Uint8Array(n), v = new DataView(b.buffer); v.setUint32(0, sig, true); extra(v, c, len, nameLen); return b; };
+  for (const [name, text] of files) {
+    const nb = enc.encode(name), data = enc.encode(text), c = crc(data);
+    const lh = hdr(0x04034b50, 30, c, data.length, nb.length, (v, c, l, nl) => { v.setUint16(4, 20, true); v.setUint16(6, 0x0800, true); v.setUint16(8, 0, true); v.setUint16(10, 0, true); v.setUint16(12, 0x21, true); v.setUint32(14, c, true); v.setUint32(18, l, true); v.setUint32(22, l, true); v.setUint16(26, nl, true); v.setUint16(28, 0, true); });
+    const ch = hdr(0x02014b50, 46, c, data.length, nb.length, (v, c, l, nl) => { v.setUint16(4, 20, true); v.setUint16(6, 20, true); v.setUint16(8, 0x0800, true); v.setUint16(10, 0, true); v.setUint16(12, 0, true); v.setUint16(14, 0x21, true); v.setUint32(16, c, true); v.setUint32(20, l, true); v.setUint32(24, l, true); v.setUint16(28, nl, true); v.setUint32(42, off, true); });
+    parts.push(lh, nb, data); cd.push(ch, nb); off += lh.length + nb.length + data.length;
+  }
+  const cdLen = cd.reduce((a, b) => a + b.length, 0), end = new Uint8Array(22), ev = new DataView(end.buffer);
+  ev.setUint32(0, 0x06054b50, true); ev.setUint16(8, files.length, true); ev.setUint16(10, files.length, true); ev.setUint32(12, cdLen, true); ev.setUint32(16, off, true);
+  return new Blob([...parts, ...cd, end], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+}
+function download(blob, name) {
+  const a = h('a', { href: URL.createObjectURL(blob), download: name }); document.body.append(a); a.click();
+  setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 2000);
+}
+
+window.__kh = { S, xlsx };
+boot();
+</script>
+</body>
+</html>
